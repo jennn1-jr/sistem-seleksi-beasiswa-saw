@@ -1,0 +1,930 @@
+
+
+=== HALAMAN 1 ===
+
+Software Requirements
+Specification
+for
+Sistem Beasiswa
+Sistem Pendukung Keputusan Seleksi Penerimaan Beasiswa Berbasis Web
+dengan Algoritma Simple Additive Weighting (SAW)
+Prepared by
+Moch. Wafiq Izna (25051204294)
+Mia Audina Ika Apriliani (25051204344)
+Jenar Aditiya Bagaskara (25051204347)
+Teknik Informatika
+17 April 2026
+
+=== HALAMAN 2 ===
+
+ii
+Software Requirements Specification for Sistem Beasiswa
+Table of Contents
+Table of Contents .......................................................................................................................... ii
+Revision History ........................................................................................................................... iii
+1. Introduction ................................................................................................................................ 4
+1.1 Purpose ............................................................................................................................................. 4
+1.2 Document Conventions ..................................................................................................................... 4
+1.3 Intended Audience and Reading Suggestions ................................................................................... 4
+1.4 Product Scope ................................................................................................................................... 5
+1.5 References ......................................................................................................................................... 5
+2. Overall Description .................................................................................................................... 6
+2.1 Product Perspective ........................................................................................................................... 6
+2.2 Product Functions ............................................................................................................................. 6
+2.3 User Classes and Characteristics ...................................................................................................... 7
+2.4 Operating Environment ...................................................................................................................... 7
+2.5 Design and Implementation Constraints ............................................................................................ 8
+2.6 User Documentation ......................................................................................................................... 8
+2.7 Assumptions and Dependencies ....................................................................................................... 9
+3. External Interface Requirements ........................................................................................... 10
+3.1 User Interfaces ................................................................................................................................ 10
+3.2 Hardware Interfaces ........................................................................................................................ 16
+3.3 Software Interfaces ......................................................................................................................... 16
+3.4 Communications Interfaces ............................................................................................................ 17
+4. System Features ....................................................................................................................... 18
+4.1 System Feature 1: Login Multi-User ............................................................................................... 18
+4.2 System Feature 2: Manajemen Data Admin ................................................................................... 18
+4.3 System Feature 3: Manajemen Data Kriteria .................................................................................. 19
+4.4 System Feature 4: Pengaturan Bobot Kriteria ................................................................................ 19
+4.5 System Feature 5: Manajemen Sub-Kriteria ................................................................................... 20
+4.6 System Feature 6: Pendaftaran & Input Data ................................................................................. 20
+4.7 System Feature 7: Verifikasi Data Pendaftar .................................................................................. 21
+4.8 System Feature 8: Konversi Nilai (Rating Kecocokan) .................................................................. 21
+4.9 System Feature 9: Normalisasi Matriks (R) .................................................................................... 22
+4.10 System Feature 10: Perhitungan Nilai Akhir (V) .......................................................................... 22
+4.11 System Feature 11: Perangkingan (Sorting)................................................................................... 22
+4.12 System Feature 12: Cetak Laporan Analisa ................................................................................... 22
+4.13 System Feature 13: Dashboard Pengumuman .............................................................................. 23
+5. Other Nonfunctional Requirements ....................................................................................... 24
+5.1 Performance Requirements ............................................................................................................. 24
+5.2 Safety Requirements ....................................................................................................................... 25
+5.3 Security Requirements .................................................................................................................... 26
+5.4 Software Quality Attributes ............................................................................................................ 27
+5.5 Business Rules ................................................................................................................................ 29
+5.6 Software Architecture ..................................................................................................................... 30
+5.7 Software Design ............................................................................................................................... 32
+6. Other Requirements ................................................................................................................ 34
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 3 ===
+
+iii
+Software Requirements Specification for Sistem Beasiswa
+Appendix A: Glossary ................................................................................................................. 34
+Appendix B: Analysis Models ..................................................................................................... 35
+Appendix C: To Be Determined List .......................................................................................... 36
+Revision History
+Name Date Reason For Changes Version
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 4 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 4
+1. Introduction
+1.1 Purpose
+Dokumen Software Requirements Specification (SRS) ini dibuat untuk mendefinisikan
+kebutuhan Sistem Pendukung Keputusan Seleksi Penerimaan Beasiswa PPA secara terstruktur
+berdasarkan hasil analisis. Dokumen ini mencakup gambaran umum hingga penjelasan detail
+dan digunakan sebagai acuan dalam pengembangan agar sistem yang dibangun menjadi lebih
+terarah, terstruktur, dan efisien.
+1.2 Document Conventions
+Dokumen ini menggunakan Bahasa Indonesia formal dan istilah teknis umum dalam
+pengembangan perangkat lunak. Istilah asing ditulis miring. Setiap kebutuhan sistem diberi
+kode unik. Prioritas fitur disusun bertingkat, dari umum ke rinci.
+1.3 Intended Audience and Reading Suggestions
+Dokumen ini ditujukan kepada pihak-pihak yang berkepentingan dan berhak menggunakan
+perangkat lunak ini, yaitu antara lain:
+1) Pihak pengembang perangkat lunak. Pihak pengembang menggunakan dokumen SRS ini
+sebagai acuan utama dalam merancang logika algoritma Simple Additive Weighting
+(SAW), membangun struktur basis data, dan mengembangkan antarmuka sistem berbasis
+web.
+2) Pihak stakeholder. Pihak stakeholder meliputi pemilik proyek, manajemen proyek, dan
+pihak lain yang berkepentingan dalam pengembangan perangkat lunak.
+3) Pihak pengguna akhir (End-User) terdiri dari Admin yang mengelola data pendaftar dan
+menghitung nilai preferensi, serta Mahasiswa yang menggunakan sistem untuk mengecek
+status kelulusan mereka.
+Dokumen ini diharapkan memberikan gambaran umum tentang tujuan proyek, fungsi utama
+sistem, dan batasan desain yang akan diimplementasikan.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 5 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 5
+1.4 Product Scope
+Perangkat lunak ini adalah Sistem Pendukung Keputusan (SPK) berbasis web yang digunakan
+untuk seleksi beasiswa. Sistem ini dibuat untuk mempercepat, mempermudah, dan membuat
+proses seleksi lebih objektif dengan menggunakan metode Simple Additive Weighting (SAW).
+Fitur utama yang ada dalam sistem ini meliputi:
+1) Mengelola data utama, seperti kriteria (IPK, penghasilan, dan lainnya) beserta bobotnya.
+2) Mengelola data alternatif berupa nilai awal dari mahasiswa yang mendaftar.
+3) Melakukan perhitungan SAW, normalisasi matriks keputusan, dan menghitung nilai
+akhir.
+4) Menyajikan hasil seleksi dalam bentuk laporan peringkat mahasiswa yang
+direkomendasikan.
+5) Menyediakan dashboard agar mahasiswa bisa melihat status seleksi mereka.
+Batasan sistem ini adalah sebagai berikut:
+1) Sistem tidak menangani pendaftaran berkas fisik, data dianggap sudah dimasukkan oleh
+admin atau sudah terintegrasi.
+2) Sistem tidak mengelola pencairan dana atau integrasi dengan perbankan.
+3) Mahasiswa hanya dapat melihat hasil seleksi (hanya baca) dan tidak bisa mengubah
+data.
+1.5 References
+Referensi yang digunakan pada dokumen ini adalah:
+[1] IEEE Computer Society, IEEE Recommended Practice for Software Requirements
+Specifications, IEEE Std 830-1998, 1998.
+[2] S. Kusumadewi, S. Hartati, A. Harjoko, dan R. Wardoyo, Fuzzy Multi-Attribute
+Decision Making (Fuzzy MADM). Yogyakarta: Graha Ilmu, 2006.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 6 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 6
+2. Overall Description
+2.1 Product Perspective
+Website Sistem Pendukung Keputusan (SPK) seleksi penerimaan beasiswa dibuat untuk
+membantu mengelola data dan menghitung kelayakan di bidang akademik, khususnya dalam
+memilih calon penerima beasiswa dengan metode Simple Additive Weighting (SAW). Admin
+(Biro Kemahasiswaan atau Staf Tata Usaha) dan mahasiswa pendaftar adalah pihak yang
+terlibat. Website ini menggunakan framework Laravel dan database MySQL untuk membuat
+pengembangan perangkat lunak menjadi lebih efisien dan terstruktur.
+2.2 Product Functions
+Website SPK seleksi penerimaan beasiswa ini dirancang untuk dapat melakukan beberapa
+fungsi, diantaranya:
+1) Otentikasi (login).
+2) Dashboard (halaman utama).
+3) Admin dapat mengelola data pendaftar serta menginut nilai mentah masing-masing kriteria.
+4) Admin dapat mengeksekusi perhitungan metode SAW hingga menghasilkan nilai akhir.
+5) Admin dapat mengakses dan mencetak laporan hasil perangkingan beasiswa.
+6) User dapat mengakses pengumuman status kelulusan dan hasil akhir seleksi.
+7) Logout.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 7 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 7
+2.3 User Classes and Characteristics
+Pembagian hak akses dan fungsi dari masing-masing pengguna pada sistem ini yaitu:
+Aktor Fungsi Hak Akses
+Admin Login Memiliki akses penuh (Full
+Access) untuk mengelola
+Halaman Dasboard Admin
+seluruh data master,
+Kelola data kriteria & bobot menjalankan alur algoritma
+perhitungan beasiswa, dan
+Kelola data pendaftar
+mencetak laporan hasil akhir.
+Eksekusi perhitunganSAW
+Cetak laporan
+Logout
+User (Mahasiswa) Login Memiliki hak akses baca
+(Read Only) secara terbatas
+Halaman Dasboard User
+hanya untuk melihat
+Melihat hasil pengumuman
+transparasi nilai dan mengecek
+Logout status penerimaan beasiswa
+masing-masing.
+2.4 Operating Environment
+Website yang akan dibangun dapat beroprasi berdasarkan spesifikasi:
+Spesifikasi Jenis
+Sistem Operasi Windows 10 dan 11, Linux, macOS, Android,
+iOS.
+Jaringan Terhubung dengan jaringan internet atau
+intranet yang stabil.
+Perangkat Keras Laptop/ Komputer dan Smartphone.
+Spesifikasi Perangkat Keras Kapasitas RAM minimum 2 GB, Processor
+minimal Dual-core atau setara.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 8 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 8
+Platform Akses Microsoft Edge, Mozilla Firefox, Google
+Chrome, Safari, dan sebagainya.
+2.5 Design and Implementation Constraints
+Website ini dirancang sesuai dengan kebutuhan fungsional. Dari sini, beberapa spesifikasi dan
+batasan dapat ditentukan, seperti bahasa pemrograman, jenis basis data, model arsitektur sistem,
+metode pengiriman data, dan integritas sistem.
+Penggunaan Nama/Metode Keterangan Penggunaan
+Bahasa pemrograman PHP Sebagai bahasa pemrograman framework
+Laravel.
+Basis Data MySQL Perangkat lunak manajemen basis data
+sebagai media penyimpanan data master
+(kriteria & bobot) serta data pendaftar.
+Model Arsitektur Sistem MVC Model - View - Controller
+Metode Pengiriman Data POST Sebagai penambahan, hapus dan perubahan
+data serta eksekusi perhitungan SAW.
+(POST)
+Metode Pengiriman Data GET Sebagai pengambilan data, berkas laporan,
+dan tampilan antarmuka sistem.
+(GET)
+Integritas Akses Autentikasi Akses data pada sistem diberikan kepada
+user tertentu dimana akun yang berhasil
+terdaftar dapat melakukan autentikasi
+memiliki hak akses tersendiri.
+2.6 User Documentation
+Dalam implementasi Website Sistem Pendukung Keputusan Seleksi Penerimaan Beasiswa,
+pengguna dapat menggunakan langkah-langkah penggunaan sistem secara garis besar sebagai
+berikut:
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 9 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 9
+1) Login
+Masuk ke aplikasi web, lalu masukkan username dan password Anda. Setelah itu, klik
+tombol "masuk".
+2) Mengakses Dashboard
+a. Admin bisa membuka dashboard Admin setelah login ke akun Admin.
+b. Mahasiswa dapat membuka dashboard user setelah login ke akun Mahasiswa.
+3) Mengelola Data Kriteria dan Bobot
+Admin dapat masuk ke menu data master untuk menambah, mengubah, atau menghapus
+kriteria penilaian beasiswa dan bobotnya.
+4) Mengelola Data Pendaftar
+Admin membuka menu data pendaftar untuk memasukkan nilai mahasiswa pada setiap
+kriteria yang sudah ditentukan.
+5) Mengeksekusi Perhitungan SAW
+Admin menekan tombol proses perhitungan agar sistem otomatis melakukan normalisasi
+matriks dan menghitung nilai akhir.
+6) Melihat Hasil Pengumuman
+Mahasiswa membuka menu pengumuman di dashboard untuk melihat status kelulusan dan
+nilai akhir seleksi.
+7) Logout
+Admin dan Mahasiswa memilih menu logout untuk mengakhiri sesi dan keluar dari sistem.
+2.7 Assumptions and Dependencies
+Dalam implementasi Website Seleksi Penerimaan Beasiswa ini, memiliki assumptions dan
+dependencies di antaranya:
+a) Sistem memerlukan koneksi internet atau intranet yang stabil untuk dapat mengakses dan
+menjalankan aplikasi secara real-time.
+b) Sistem memerlukan perangkat keras dengan spesifikasi minimum.
+c) Pengguna (Admin dan Mahasiswa) diasumsikan telah memiliki aplikasi web browser
+standar yang terinstal pada perangkat kerasnya.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 10 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 10
+3. External Interface Requirements
+3.1 User Interfaces
+Seluruh antarmuka sistem telah diimplementasikan dalam bentuk aplikasi web responsif yang
+dapat diakses dari berbagai perangkat. Untuk keperluan demonstrasi dan pengujian langsung,
+sistem telah dideploy dan dapat diakses melalui tautan berikut:
+URL Demonstrasi: https://347344294.oneapp.dev/
+3.1.1 Autentikasi
+1) Halaman Login
+Halaman ini berfungsi sebagai gerbang masuk utama bagi Admin dan Mahasiswa dengan
+menginputkan kredensial berupa username dan password.
+3.1.2 Administrasi
+1) Dashboard Admin
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 11 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 11
+Halaman ini merupakan tampilan utama setelah Admin berhasil masuk ke sistem. Di sini
+terdapat ringkasan statistik berupa total pendaftar, jumlah data yang sudah terverifikasi,
+data yang masih pending, serta jumlah kriteria yang aktif. Terdapat juga tabel pendaftar
+terbaru untuk memantau aktivitas sistem secara real-time.
+2) Manajemen Admin
+Digunakan untuk mengelola akun-akun yang memiliki hak akses sebagai administrator.
+Admin utama dapat menambah, melihat daftar username, serta melakukan perubahan
+(edit) pada data akun pengelola sistem lainnya.
+3) Pengaturan Sistem
+Halaman ini berfungsi untuk mengatur parameter global dalam proses seleksi, yaitu
+menentukan "Kuota Penerima Beasiswa". Angka yang dimasukkan di sini akan menjadi
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 12 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 12
+batasan otomatis bagi sistem dalam menentukan jumlah mahasiswa yang lolos pada
+laporan akhir.
+4) Kelola Kriteria
+Halaman ini menampilkan daftar kriteria utama (C1-C5) yang digunakan dalam
+perhitungan SAW. Admin dapat melihat kode kriteria, nama kriteria, tipe (Benefit/Cost),
+serta bobot yang diberikan. Sistem juga secara otomatis menghitung total bobot untuk
+memastikan jumlahnya adalah 1.00.
+5) Kelola Sub Kriteria
+Halaman ini digunakan untuk menentukan rating kecocokan atau himpunan nilai dari
+setiap kriteria. Admin dapat mengatur rentang nilai (Min - Max) beserta skor yang
+didapatkan (1-5) agar data mentah mahasiswa dapat dikonversi ke dalam angka numerik
+standar.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 13 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 13
+6) Data Pendaftar
+Modul ini menampilkan seluruh daftar mahasiswa yang telah masuk ke dalam sistem.
+Admin dapat memantau status verifikasi (terverifikasi/pending), mengecek kelengkapan
+nilai, serta melakukan aksi verifikasi berkas sebelum data diproses lebih lanjut.
+7) Eksekusi SAW
+Sebelum sistem melakukan perhitungan, Admin akan diarahkan ke halaman persiapan
+eksekusi. Di sini terdapat instruksi bahwa hanya data pendaftar dengan status terverifikasi
+dan nilai lengkap yang akan diproses oleh algoritma SAW.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 14 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 14
+Setelah tombol eksekusi ditekan, sistem menampilkan transparansi perhitungan yang
+meliputi Matriks Keputusan (X) berisi nilai asli pendaftar dan Tabel Rating Kecocokan
+yang merupakan hasil konversi nilai mentah ke skor sub-kriteria.
+8) Laporan Hasil Perangkingan
+Menampilkan urutan mahasiswa berdasarkan nilai preferensi tertinggi. Sistem secara
+otomatis memberikan label peringkat dan menyaring mahasiswa yang masuk ke dalam
+kuota penerimaan beasiswa yang telah ditentukan.
+3.1.3 Pengguna (User)
+1) Dashboard Mahasiswa
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 15 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 15
+Halaman ini merupakan tampilan awal saat mahasiswa (pendaftar) berhasil masuk ke
+portal. Menggunakan tema gelap (dark mode) untuk membedakannya dari halaman
+Admin, dashboard ini menampilkan informasi dasar mahasiswa seperti NIM, Program
+Studi, dan status verifikasi berkas. Selain itu, terdapat tabel "Kriteria Penilaian" yang
+menampilkan rekapan nilai mentah milik mahasiswa tersebut sesuai dengan data yang
+telah diverifikasi oleh Admin.
+2) Pengumuman Hasil Seleksi
+Halaman ini berfungsi sebagai wujud transparansi sistem terhadap hasil akhir seleksi.
+Terdapat banner visual yang sangat jelas (misalnya berwarna hijau) untuk
+memberitahukan status kelulusan mahasiswa beserta informasi peringkat dan kuota.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 16 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 16
+3.2 Hardware Interfaces
+Menggunakan arsitektur client-server berbasis web, SPK seleksi beasiswa ini dirancang agar
+praktis. Sistem sama sekali tidak menuntut adanya integrasi perangkat keras khusus semacam
+sensor atau pemindai barcode. Secara garis besar, kebutuhan hardware hanya terbagi untuk dua
+sisi: pengguna dan server. Mahasiswa dan admin bisa mengakses sistem dari berbagai perangkat
+mulai dari komputer, laptop, tablet, hingga smartphone. Tidak ada alat input spesifik yang
+diwajibkan; keyboard, mouse, trackpad, atau layar sentuh bawaan perangkat sudah sangat
+memadai. Satu-satunya hal yang perlu diperhatikan adalah ukuran layar. Agar form pendaftaran
+dan tabel matriks perhitungan tampil utuh tanpa terpotong, layar yang digunakan sebaiknya
+memiliki resolusi minimal 1024x768 piksel.
+Untuk kebutuhan server, sistem bisa ditempatkan di dedicated server maupun layanan cloud.
+Spesifikasi dasarnya cukup ringan: prosesor dual-core, RAM 2 GB, dan ruang penyimpanan
+awal sekitar 20 GB sudah bisa menjalankan aplikasi. Nantinya, kapasitas penyimpanan ini bisa
+langsung di-upgrade menyesuaikan jumlah dokumen yang diunggah oleh pendaftar.
+Konektivitas komunikasi data antara perangkat pengguna dan server berjalan lewat Network
+Interface Card (NIC) standar berprotokol TCP/IP. Akses webnya sendiri menggunakan jalur
+HTTP atau HTTPS, sehingga data sensitif dan kredensial pengguna dipastikan aman selama
+proses transmisi berlangsung.
+3.3 Software Interfaces
+1) Pengoperasian
+Sistem ini terintegrasi dengan perangkat lunak pihak ketiga tertentu. Lingkungan server
+mendukung sistem operasi Linux serta Windows Server. Sementara itu, akses klien bersifat
+independen dari sistem operasi karena dilakukan melalui web browser.
+2) Perangkat Lunak Server dan Basis Data
+Komponen utama mencakup web server Apache (versi 2.4 ke atas) atau Nginx untuk
+menerima dan merutekan permintaan HTTP/HTTPS. Basis data dikelola oleh MySQL.
+Pengembangan aplikasi menggunakan PHP 8.x pada framework Laravel dengan pola
+Model View Controller (MVC).
+3) Pertukaran Data dan Komunikasi
+Alur data masuk termasuk profil pendaftar, dokumen, dan nilai kriteria dilakukan via HTTP
+POST dari browser ke server, dengan perlindungan CSRF bawaan Laravel. Alur keluar
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 17 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 17
+menghasilkan tampilan HTML, CSS, dan JavaScript melalui engine Blade; unduhan
+laporan SAW tersedia lewat HTTP GET. Koneksi aplikasi-basis data memanfaatkan
+Eloquent ORM untuk efisiensi CRUD dan pencegahan SQL Injection.
+Browser klien harus kompatibel penuh dengan HTML5, CSS3, serta JavaScript.
+3.4 Communications Interfaces
+SPK seleksi beasiswa ini butuh antarmuka komunikasi jaringan yang solid agar pengguna bisa
+akses lancarmengelola lalu lintas data antar klien dan server.
+1) Protokol Jaringan dan Standar Komunikasi
+Komunikasi klien-server pakai TCP/IP sepenuhnya. Cukup buka browser via HTTP (port
+80) atau HTTPS (port 443) yang lebih aman. Internalnya, Laravel hubungkan ke MySQL
+lewat TCP/IP port 3306. Ada juga opsi kirim notifikasi email via SMTP.
+2) Format Pesan dan Pertukaran Data
+Halaman web kirim data ke klien dalam HTML, CSS, JavaScript. Untuk interaksi halus
+like load grafik SAW atau validasi form pakai AJAX dengan respons JSON. Unggahan
+dokumen pendaftar mengunakan multipart/form-data.
+3) Keamanan dan Enkripsi
+Prioritas utama: enkripsi data. Wajib SSL/TLS untuk HTTPS, lindungi info pribadi dan
+login. Form modifikasi data (POST, PUT, DELETE) diamankan token anti-CSRF.
+4) Kecepatan Transfer dan Sinkronisasi
+Cukup model request-response sinkron. Kecepatan loading halaman serta transfer file
+bergantung bandwidth server dan koneksi internet pengguna.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 18 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 18
+4. System Features
+4.1 System Feature 1: Login Multi-User
+4.1.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus menyediakan fitur login dengan
+membedakan hak akses antara Admin (akses
+penuh) dan Mahasiswa (akses dasbor
+FR-01 Login Multi-User pendaftar) menggunakan proses autentikasi
+yang dienkripsi.
+4.1.2 Activity Diagram Login Admin & Mahasiswa
+4.2 System Feature 2: Manajemen Data Admin
+4.2.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus memungkinkan Admin untuk
+menambah, mengubah, dan menghapus data
+FR-02 Manajemen Data Admin
+akun admin lainnya.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 19 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 19
+4.3 System Feature 3: Manajemen Data Kriteria
+4.3.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus memungkinkan admin
+menambah, mengubah, dan menghapus data
+kriteria (C1-C5) beserta penentuan jenis
+FR-03 Manajemen Data Kriteria
+atributnya (Benefit atau Cost).
+4.3.2 Activity Diagram Manajemen CRUD
+4.4 System Feature 4: Pengaturan Bobot Kriteria
+4.4.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus memungkinkan admin
+menentukan dan mengubah bobot referensi
+(W) untuk tiap kriteria sesuai kebijakan seleksi
+FR-04 Pengaturan Bobot Kriteria
+beasiswa.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 20 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 20
+4.5 System Feature 5: Manajemen Sub-Kriteria
+4.5.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus memungkinkan admin mengatur
+rentang nilai (himpunan/sub-kriteria) untuk
+mengonversi data mentah menjadi bobot
+FR-05 Manajemen Sub-Kriteria numerik standar (misal: IPK 3.0-3.5 bernilai
+75).
+4.6 System Feature 6: Pendaftaran & Input Data
+4.6.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus menyediakan formulir bagi
+Admin untuk memasukkan dan menyimpan
+data profil mahasiswa pendaftar, beserta nilai
+mentah untuk masing-masing kriteria
+FR-06 Pendaftaran & Input Data
+penyeleksian yang telah ditentukan.
+4.6.2 Activity Diagram Tambah & Kelola Data
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 21 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 21
+4.7 System Feature 7: Verifikasi Data Pendaftar
+4.7.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus menyediakan antarmuka bagi
+admin untuk melihat, memverifikasi
+kelengkapan dokumen, serta
+FR-07 Verifikasi Data Pendaftar mengedit/menolak data pendaftar mahasiswa
+jika tidak valid.
+4.8 System Feature 8: Konversi Nilai (Rating Kecocokan)
+4.8.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus secara otomatis mengonversi
+Konversi Nilai (Rating data mentah mahasiswa yang telah diverifikasi
+FR-08
+ke dalam matriks keputusan (X)
+Kecocokan)
+berdasarkan aturan sub-kriteria.
+4.3.2 Activity Diagram Proses Alur Perhitungan SAW
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 22 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 22
+4.9 System Feature 9: Normalisasi Matriks (R)
+4.9.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus melakukan perhitungan
+normalisasi matriks keputusan secara
+otomatis, dengan membedakan rumus
+FR-09 Normalisasi Matriks (R) pembagian/perkalian berdasarkan atribut
+kriteria (Benefit atau Cost).
+4.10 System Feature 10: Perhitungan Nilai Akhir (V)
+4.10.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus menghitung nilai preferensi akhir
+mahasiswa menggunakan metode SAW
+dengan rumus matematis. FR-11 Perangkingan
+(Sorting) Sistem harus mengurutkan data
+mahasiswa secara otomatis berdasarkan nilai
+FR-10 Perhitungan Nilai Akhir (V)
+preferensi akhir (Vi) dari yang tertinggi
+(Peringkat 1) hingga terendah.
+4.11 System Feature 11: Perangkingan (Sorting)
+4.11.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus mengurutkan data mahasiswa
+secara otomatis berdasarkan nilai preferensi
+akhir (Vi) dari yang tertinggi (Peringkat 1)
+FR-11 Perangkingan (Sorting)
+hingga terendah.
+4.12 System Feature 12: Cetak Laporan Analisa
+4.12.1 Deskripsi
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 23 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 23
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus memungkinkan admin untuk
+melihat seluruh riwayat matriks (awal,
+normalisasi, akhir), menyimpan data ke
+FR-12 Cetak Laporan Analisa database, dan mengekspor hasil perankingan
+ke format PDF atau Excel.
+4.13 System Feature 13: Dashboard Pengumuman
+4.13.1 Deskripsi
+ID FR NAMA FUNGSI DESKRIPSI KEBUTUHAN
+Sistem harus menampilkan status hasil seleksi
+(Lolos/Tidak Lolos) pada dashboard akun
+masing-masing mahasiswa berdasarkan kuota
+FR-13 Dashboard Pengumuman
+penerima beasiswa dan hasil perankingan.
+4.13.2 Activity Diagram Dasboard Pengumuman
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 24 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 24
+5. Other Nonfunctional Requirements
+5.1 Performance Requirements
+Kebutuhan performa mendefinisikan seberapa baik dan seberapa cepat sistem aplikasi seleksi
+beasiswa ini harus beroperasi, terutama saat memproses algoritma perhitungan SAW yang
+melibatkan banyak data pendaftar.
+Berikut adalah tabel rincian kebutuhan performanya:
+Metrik atau Target yang Dapat
+Jenis Deskripsi Kebutuhan
+Diukur
+Response Time Sistem harus bisa memproses Waktu maksimal yang diperlukan
+perhitungan normalisasi matriks sistem untuk memproses dan
+dan nilai preferensi dengan cepat. menampilkan hasil perankingan
+Pengguna tidak boleh menunggu adalah tiga detik setelah tombol
+terlalu lama. “Hitung/Proses” ditekan.
+Availability Sistem aplikasi ini harus bisa Sistem harus tersedia selama dua
+diakses terus-menerus oleh panitia puluh empat jam sehari dan tujuh
+seleksi dan mahasiswa, tanpa hari seminggu, dengan tingkat
+mengalami gangguan yang sering. uptime server minimal sembilan
+puluh sembilan koma delapan
+persen.
+Reliability Sistem harus bisa menjalankan Tingkat toleransi kesalahan pada
+proses perhitungan bobot kriteria perhitungan algoritma SAW adalah
+dan nilai alternatif dengan presisi, nol persen.
+tanpa kesalahan matematis.
+Capacity Basis data sistem harus dirancang Sistem harus bisa menyimpan dan
+untuk menampung data mahasiswa memproses minimal sepuluh ribu
+yang mendaftar beasiswa di setiap data mahasiswa dan histori seleksi
+periode akademik baru. tanpa mengalami penurunan
+performa yang signifikan.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 25 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 25
+Concurrency Sistem harus tetap stabil dan tidak Sistem harus bisa menangani
+mengalami gangguan ketika minimal lima ratus sesi pengguna
+diakses oleh banyak pengguna aktif secara bersamaan.
+secara bersamaan.
+5.2 Safety Requirements
+Kebutuhan keselamatan mencakup perlindungan terhadap data dan sistem dari kegagalan
+operasional, kesalahan teknis, maupun kelalaian pengguna. Hal ini sangat penting untuk
+menjaga integritas data perhitungan nilai beasiswa agar tidak hilang atau rusak di tengah proses
+seleksi.
+Parameter
+Deskripsi Kebutuhan Metrik atau Target Terukur
+Keselamatan
+Sistem harus melakukan Pencadangan otomatis ini dilakukan
+pencadangan semua data yang ada ke server atau cloud storage setiap
+di basis data secara berkala untuk 24 jam sekali pada jam yang tidak
+Automated Data mencegah kehilangan data yang sibuk, seperti pukul
+Backup tidak bisa dikembalikan. Data ini 02.00 WIB.
+termasuk informasi pendaftar, nilai
+alternatif, dan hasil perankingan
+SAW.
+Jika server mengalami kegagalan, Sistem memiliki fitur auto-rollback
+listrik padam, atau koneksi terputus yang bisa mengembalikan status
+secara tiba-tiba saat sistem sedang database ke kondisi aman terakhir
+Fault Tolerance
+melakukan perhitungan matriks dalam waktu maksimal 1 menit
+SAW, data tidak boleh rusak. setelah server menyala kembali.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 26 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 26
+Sistem tidak boleh mengalami Semua form input harus dilengkapi
+crash atau error fatal jika dengan validasi data di sisi client,
+Input Validation pengguna salah memasukkan atau browser, dan server, serta
+format data, seperti memasukkan memunculkan pesan peringatan
+Safety
+teks pada kolom nilai IPK atau yang mudah dipahami oleh
+penghasilan orang tua. pengguna.
+Sistem harus memiliki prosedur Waktu maksimal yang dibutuhkan
+Disaster
+pemulihan yang jelas jika terjadi untuk memulihkan sistem hingga
+Recovery
+kerusakan pada perangkat keras bisa diakses kembali, atau
+server atau bencana yang Recovery Time Objective, adalah
+menyebabkan server utama tidak maksimal 4 jam.
+bisa digunakan.
+Sistem harus bisa Sistem memiliki fitur auto-save
+sementara, atau cache, yang
+mempertahankan sesi atau data
+menyimpan draf pengisian form
+yang sedang dikerjakan oleh
+State
+setiap 3 menit untuk menghindari
+panitia seleksi jika jaringan internet
+Preservation
+kehilangan data.
+tiba-tiba terputus, agar panitia tidak
+perlu menginput data dari awal
+lagi.
+5.3 Security Requirements
+Bagian ini memastikan bahwa sistem memiliki pertahanan yang baik terhadap akses yang tidak
+sah dan mampu melindungi privasi data mahasiswa yang mendaftar beasiswa.
+Parameter
+Deskripsi Kebutuhan Metrik atau Target Terukur
+Keamanan
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 27 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 27
+Authentication Memastikan bahwa hanya 100% halaman sistem (kecuali
+pengguna yang terdaftar yang bisa halaman login dan portal pendaftaran)
+mengakses dashboard utama harus terkunci dan membutuhkan
+aplikasi seleksi beasiswa dengan verifikasi username dan password
+membatasi akses masuk. agar tidak bisa diakses sembarangan.
+Authorization Terdapat pemisahan hak akses yang Hanya akun dengan role Admin yang
+jelas antara Administrator bisa mengakses, membuat,
+(panitia) dan Pengguna biasa mengubah, dan menghapus data
+(mahasiswa). kriteria, bobot, dan hasil seleksi akhir.
+Data Data sensitif milik pengguna, Menggunakan standar algoritma
+seperti password dan informasi kriptografi yang kuat, seperti AES128
+Encryption
+kredensial lainnya, tidak boleh atau hashing Bcrypt, untuk
+disimpan dalam bentuk teks biasa di mengenkripsi semua data kredensial
+basis data untuk melindungi privasi. pengguna.
+Session Sistem harus bisa mencegah Sesi pengguna akan kedaluwarsa
+pembajakan sesi (session hijacking) (timeout) secara otomatis setelah 30
+Management
+jika pengguna lupa melakukan menit tidak ada aktivitas, sehingga
+logout dari perangkat publik atau data pengguna tetap aman.
+warnet.
+5.4 Software Quality Attributes
+Atribut ini mendefinisikan standar kualitas software secara keseluruhan, memastikan aplikasi
+tidak hanya berfungsi menghitung algoritma SAW, tapi juga dirancang dengan arsitektur yang
+baik.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 28 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 28
+Atribut
+Deskripsi Kebutuhan Metrik atau Target Terukur
+Kualitas
+Antarmuka sistem harus dibuat Pengguna baru harus dapat
+dengan rapi dan intuitif sehingga memahami cara kerja penginputan
+panitia seleksi dapat data hingga perankingan dalam waktu
+Usability
+menggunakannya dengan mudah singkat, kurang dari 15 menit, tanpa
+saat menginput nilai alternatif perlu membaca buku panduan yang
+mahasiswa. tebal.
+Struktur kode aplikasi, baik di bagian Sistem harus dibangun dengan
+depan maupun belakang, harus mengadopsi pola arsitektur
+tertata dengan baik, modular, dan ModelView-Controller (MVC),
+Maintainability
+terstruktur agar mudah menggunakan framework web standar
+dikembangkan atau diperbaiki di seperti CodeIgniter 4, sehingga
+masa depan. dokumentasi kode menjadi jelas.
+Sebagai aplikasi berbasis web, Aplikasi harus mendukung berbagai
+antarmuka harus bisa menyesuaikan resolusi layar, dari layar ponsel hingga
+Portability diri dan berjalan dengan lancar di desktop, dan kompatibel dengan
+berbagai perangkat tanpa membuat minimal tiga peramban utama seperti
+antarmuka menjadi berantakan. Chrome, Firefox, dan Safari.
+Sistem harus mencatat jejak aktivitas Harus ada log aktivitas yang mencatat
+penting yang dilakukan oleh Admin waktu dan identitas admin setiap kali
+Auditability
+untuk mencegah manipulasi data ada perubahan pada data kriteria,
+beasiswa. bobot, atau data mahasiswa.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 29 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 29
+5.5 Business Rules
+Aturan bisnis ini memuat inti logika matematika dari metode Fuzzy Multiple Attribute Decision
+Making (FMADM) dengan Simple Additive Weighting (SAW) yang diimplementasikan dalam
+sistem untuk menyeleksi penerima beasiswa berdasarkan naskah publikasi.
+5.5.1 Kriteria Penilaian (C1 - C5) dan Bobot Preferensi (W)
+Sistem menentukan kelayakan beasiswa berdasarkan 5 kriteria utama. Kriteria ini
+dibedakan menjadi atribut Benefit (semakin besar nilainya semakin baik) dan atribut Cost
+(semakin kecil nilainya semakin baik).
+Kode Nama Kriteria Tipe Kriteria Bobot (W)
+C1 Nilai IPK Benefit 3
+C2 Penghasilan Orang Tua Cost 4
+C3 Semester Benefit 1
+C4 Jml. Tanggungan Ortu Benefit 2
+C5 Keikutsertaan Organisasi Benefit 5
+Sistem akan menyimpan dan memproses himpunan Vektor Bobot Preferensi tersebut
+secara statis maupun dinamis (dapat diubah admin) sebagai: W = [3, 4, 1, 2, 5]
+5.5.2 Rumus Normalisasi Matriks (R)
+Sebelum dihitung hasil akhirnya, sistem akan menormalisasi matriks keputusan (X) dari
+data mentah pendaftar ke dalam skala yang sebanding (R). Aturan logikanya adalah:
+a. Jika Kriteria = Benefit (C1, C3, C4, C5):
+Sistem akan membagi nilai data mahasiswa tersebut dengan nilai tertinggi
+(maksimum) yang ada pada kriteria itu di seluruh data pelamar.
+𝑥
+𝑖𝑗
+𝑅 =
+𝑖𝑗
+max𝑥
+𝑖𝑗
+b. Jika Kriteria = Cost (C2):
+Sistem akan membagi nilai terendah (minimum) yang ada pada kriteria itu dengan nilai
+data mahasiswa yang bersangkutan.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 30 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 30
+min𝑥
+𝑖𝑗
+𝑅 =
+𝑖𝑗
+𝑥
+𝑖𝑗
+5.5.3 Perhitungan Preferensi SAW (V) dan Perankingan
+Tahap terakhir yang diproses oleh sistem adalah menghitung nilai preferensi (Vi) dari setiap
+alternatif (mahasiswa). Sistem menjumlahkan hasil perkalian antara matriks ternormalisasi
+(R) dengan bobot kriteria (W).
+𝑛
+𝑉𝑖 = 𝑊𝑗𝑟𝑖𝑗
+𝑗=1
+Keterangan Rumus:
+• Vi = Nilai akhir dari alternatif (mahasiswa) ke-i
+• Wj = Bobot yang telah ditentukan pada kriteria ke-j
+• Rij = Nilai matriks yang sudah dinormalisasi
+Aturan Keputusan Akhir: Sistem akan melakukan pengurutan data (sorting) dari nilai Vi
+tertinggi ke terendah secara otomatis. Alternatif mahasiswa dengan nilai Vi paling besar
+ditetapkan oleh sistem sebagai kandidat terbaik yang lolos penerimaan beasiswa.
+5.6 Software Architecture
+5.6.1 Tabel Alur Kerja Arsitektur Sistem (Client-Server)
+Tahap Komponen yang Terlibat Deskripsi Proses
+Panitia seleksi membuka aplikasi
+beasiswa di browser laptop dan mengklik
+Client / Web Browser tombol pemrosesan (misal: tombol
+1
+"Hitung Hasil Beasiswa") untuk
+(Pengguna)
+mengirim permintaan data (HTTP
+Request).
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 31 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 31
+Web Server menerima permintaan dari
+internet tersebut, lalu langsung
+2 Web Server (Pintu Gerbang)
+meneruskannya ke sistem aplikasi untuk
+diproses lebih lanjut.
+Sistem (berbasis CodeIgniter 4)
+menerima perintah tersebut. Sistem
+Application Server (Logika
+menyadari bahwa untuk menghitung
+3
+Sistem)
+hasil, ia membutuhkan data mahasiswa
+dan bobot kriteria.
+Sistem meminta data ke Database.
+Database kemudian mencari semua data
+Database Server
+nilai pelamar dan bobot kriteria (Atribut
+4
+(Penyimpanan Data)
+Cost/Benefit), lalu mengirimkannya
+kembali ke sistem.
+Sistem menerima data tersebut, lalu
+mengeksekusi rumus algoritma SAW
+Application Server (Proses (menghitung normalisasi matriks dan
+5
+nilai preferensi akhir). Setelah selesai,
+Hitung)
+hasilnya dirakit menjadi sebuah halaman
+web yang rapi.
+6 Web Server (Pengiriman Web Server menerima halaman web
+Balik) hasil perhitungan yang sudah matang dari
+sistem, kemudian mengirimkannya
+kembali ke pengguna (HTTP Response).
+Browser menerima data tersebut dan
+menampilkan daftar peringkat mahasiswa
+Client / Web Browser
+yang paling layak menerima beasiswa di
+7
+(Pengguna)
+layar laptop panitia. Proses selesai!
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 32 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 32
+5.6.2 Software Arsitektur untuk Sistem Pendukung Keputusan
+5.7 Software Design
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 33 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 33
+Desain perangkat lunak sistem ini memiliki tiga arsitektur utama:
+1) Desain Basis Data (Database Design)
+Struktur penyimpanan data di MySQL dimodelkan secara detail menggunakan
+Physical Data Model (PDM). PDM dibuat dengan PowerDesigner untuk
+mendefinisikan entitas, tipe data, primary key, foreign key, dan relasi antar tabel
+seperti Admin, Mahasiswa, Kriteria, Bobot, dan Nilai_Alternatif.
+2) Desain Alur Proses (Process Design)
+Alur kerja sistem dan interaksi pengguna dengan antarmuka digambarkan
+menggunakan UML, yaitu Activity Diagram. Desain ini memetakan urutan proses
+perhitungan metode SAW, mulai dari pengambilan data nilai mentah pendaftar,
+pembentukan matriks keputusan (X), normalisasi matriks (R), sampai proses
+perankingan (V) oleh Controller.
+3) Desain Struktur Sistem (Structural Design)
+Karena sistem ini dibuat dengan framework Laravel yang menggunakan pola
+arsitektur MVC (Model-View-Controller), struktur objek dan kelas digambarkan
+dengan Class Diagram. Desain ini menjelaskan atribut dan metode yang dimiliki setiap
+kelas, serta bagaimana Controller berinteraksi dengan Model untuk mengolah data
+beasiswa sebelum ditampilkan ke View.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 34 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 34
+6. Other Requirements
+Appendix A: Glossary
+Istilah / Akronim Kepanjangan / Definisi
+FMADM Fuzzy Multiple Attribute Decision Making, yaitu suatu
+metode pengambilan keputusan untuk mencari alternatif
+optimal dari sejumlah alternatif dengan kriteria tertentu.
+SAW Simple Additive Weighting, sering juga dikenal dengan istilah
+metode penjumlahan terbobot. Metode ini mencari
+penjumlahan terbobot dari rating kinerja pada setiap
+alternatif di semua kriteria.
+Kriteria Benefit Kriteria penyeleksian (keuntungan) di mana semakin besar
+nilainya, maka akan semakin baik bobotnya.
+Kriteria Cost Kriteria penyeleksian (biaya) di mana semakin kecil nilainya,
+maka akan semakin baik bobotnya.
+Matriks Keputusan (X) Kumpulan data nilai mentah atau nilai asli dari seluruh
+pelamar beasiswa sebelum diproses melalui perhitungan
+matematis.
+Matriks Ternormalisasi (R) Hasil konversi nilai mentah mahasiswa ke dalam skala yang
+sebanding (antara 0 hingga 1) sehingga bisa dihitung secara
+adil antar kriteria.
+Vektor Preferensi (V) Nilai hasil akhir (score) dari perhitungan metode SAW yang
+akan digunakan sistem untuk merangking siapa mahasiswa
+yang paling layak menerima beasiswa.
+MVC Model-View-Controller, yaitu pola arsitektur perangkat lunak
+yang memisahkan logika pemrosesan data, tampilan
+antarmuka, dan pengatur alur aplikasi (digunakan pada
+CodeIgniter 4).
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 35 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 35
+Appendix B: Analysis Models
+Bagian ini memuat model analisis dan perancangan sistem yang digunakan untuk memvisualisasikan
+alur dan struktur aplikasi Seleksi Beasiswa, meliputi: 1. Activity Diagram
+2. Entity-Relationship Diagram (ERD):
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
+
+=== HALAMAN 36 ===
+
+Software Requirements Specification for Eksekusi Sistem Beasiswa Page 36
+3. Class Diagram / Use Case Diagram
+Appendix C: To Be Determined List
+Berikut adalah daftar hal-hal yang masih belum diputuskan atau masih dalam tahap konfirmasi lebih
+lanjut (To Be Determined) saat dokumen SRS ini disusun:
+1. TBD-1: Spesifikasi pasti kapasitas hosting dan alamat domain (URL) yang akan disediakan
+oleh pihak institusi untuk merilis aplikasi ini ke tahap production.
+2. TBD-2: Kuota pasti jumlah penerima beasiswa yang akan diambil dari hasil perankingan
+(apakah top 10, top 50, atau berdasarkan ambang batas nilai vvdsdvVi tertentu). Aturan ini
+akan dikonfirmasi lebih lanjut ke pihak rektorat/kepala sekolah.
+3. TBD-3: Keputusan apakah mahasiswa perlu mengunggah berkas scan bukti fisik (seperti slip
+gaji orang tua dan transkrip nilai) ke dalam sistem, atau hanya mengisi nilai nominalnya saja.
+Copyright © 2026 by Sistem Beasiswa. Permission is granted to use, modify, and distribute this document.
