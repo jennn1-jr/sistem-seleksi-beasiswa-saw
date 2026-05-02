@@ -1,38 +1,39 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class HasilSaw extends Model
 {
-    public function up(): void
+    protected $table = 'hasil_saw';
+
+    protected $fillable = [
+        'pendaftar_id',
+        'x_c1', 'x_c2', 'x_c3', 'x_c4', 'x_c5',
+        'r_c1', 'r_c2', 'r_c3', 'r_c4', 'r_c5',
+        'nilai_preferensi',
+        'peringkat',
+        'lolos',
+        'periode',
+        'dieksekusi_oleh',
+        'dieksekusi_at',
+    ];
+
+    protected $casts = [
+        'lolos'         => 'boolean',
+        'dieksekusi_at' => 'datetime',
+    ];
+
+    // ── Relasi ────────────────────────────────────────────
+    public function pendaftar(): BelongsTo
     {
-        Schema::create('pendaftar', function (Blueprint $table) {
-            $table->id();
-            $table->string('nim')->unique();
-            $table->string('nama');
-            $table->string('program_studi');
-            $table->integer('semester');
-            $table->string('email')->nullable();
-            $table->string('no_hp')->nullable();
-            // Nilai mentah per kriteria (SRS: FR-06)
-            $table->decimal('ipk', 4, 2)->nullable();          // C1: IPK (Benefit)
-            $table->decimal('penghasilan_ortu', 15, 2)->nullable(); // C2: Penghasilan Orang Tua (Cost)
-            $table->integer('semester_aktif')->nullable();     // C3: Semester (Benefit) - duplikat field semester jika berbeda
-            $table->integer('jml_tanggungan')->nullable();     // C4: Jml. Tanggungan Ortu (Benefit)
-            $table->integer('keikutsertaan_organisasi')->nullable(); // C5: Keikutsertaan Organisasi (Benefit, jumlah)
-            // Status verifikasi (SRS: FR-07)
-            $table->enum('status_verifikasi', ['pending', 'terverifikasi', 'ditolak'])->default('pending');
-            $table->text('catatan_verifikasi')->nullable();
-            $table->foreignId('verified_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->timestamp('verified_at')->nullable();
-            $table->timestamps();
-        });
+        return $this->belongsTo(Pendaftar::class, 'pendaftar_id');
     }
 
-    public function down(): void
+    public function dieksekusiOleh(): BelongsTo
     {
-        Schema::dropIfExists('pendaftar');
+        return $this->belongsTo(User::class, 'dieksekusi_oleh');
     }
-};
+}
