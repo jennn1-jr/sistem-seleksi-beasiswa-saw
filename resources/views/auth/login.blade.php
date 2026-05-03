@@ -103,7 +103,7 @@
         }
         .login-field input {
             width: 100%;
-            padding: 12px 14px 12px 40px;
+            padding: 12px 40px 12px 40px;
             background: rgba(255,255,255,0.15);
             border: 1px solid rgba(255,255,255,0.3);
             border-radius: var(--radius-sm);
@@ -125,6 +125,21 @@
             color: rgba(255,255,255,0.6);
             font-size: 14px;
         }
+        /* toggle show/hide password */
+        .btn-toggle-pw {
+            position: absolute;
+            right: 14px;
+            top: 34px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+        .btn-toggle-pw:hover { color: #fff; }
 
         /* error */
         .login-error {
@@ -200,27 +215,7 @@
         .btn-login:active { transform: translateY(0); }
         .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-        /* demo box */
-        .demo-box {
-            margin-top: 20px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: var(--radius-sm);
-            padding: 14px;
-            text-align: left;
-        }
-        .demo-box h4 {
-            color: rgba(255,255,255,0.9);
-            font-size: 12px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .demo-box p {
-            color: rgba(255,255,255,0.7);
-            font-size: 12px;
-            line-height: 1.8;
-        }
+
 
         /* theme toggle */
         .login-theme-toggle {
@@ -329,6 +324,9 @@
                     autocomplete="current-password"
                     required
                 >
+                <button type="button" class="btn-toggle-pw" id="btnTogglePw" title="Tampilkan/sembunyikan password">
+                    <i class="fas fa-eye" id="iconTogglePw"></i>
+                </button>
             </div>
 
             <!-- Remember me -->
@@ -346,14 +344,6 @@
             </button>
         </form>
 
-        <!-- Demo credentials ───────────────────────────── -->
-        <div class="demo-box">
-            <h4><i class="fas fa-info-circle"></i> Akun Demo</h4>
-            <p>
-                <strong>Admin:</strong> admin / admin123<br>
-                <strong>Mahasiswa:</strong> 12345 / student123
-            </p>
-        </div>
     </div><!-- /.login-card -->
 </div><!-- /#loginPage -->
 
@@ -363,6 +353,19 @@
         var btn = document.getElementById('btnLogin');
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+    });
+
+    // Show / hide password
+    document.getElementById('btnTogglePw').addEventListener('click', function () {
+        var input = document.getElementById('password');
+        var icon  = document.getElementById('iconTogglePw');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
     });
 </script>
 </body>
