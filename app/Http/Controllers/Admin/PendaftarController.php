@@ -12,7 +12,24 @@ class PendaftarController extends Controller
 {
     public function index()
     {
-        $pendaftar = Pendaftar::latest()->get();
+        $query = Pendaftar::latest();
+
+        // Filter pencarian (nama atau NIM)
+        if (request('search')) {
+            $search = request('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nim', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter status verifikasi
+        if (request('status')) {
+            $query->where('status_verifikasi', request('status'));
+        }
+
+        $pendaftar = $query->paginate(15);
+
         return view('admin.pendaftar.index', compact('pendaftar'));
     }
 
