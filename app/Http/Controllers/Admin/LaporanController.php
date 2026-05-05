@@ -13,18 +13,20 @@ class LaporanController extends Controller
     {
         $kuota        = (int) PengaturanSistem::get('kuota_beasiswa', 5);
         $periodeAktif = PengaturanSistem::get('periode_aktif', date('Y'));
+        $namaBeasiswa = PengaturanSistem::get('nama_beasiswa', 'Beasiswa PPA');
         $hasil        = HasilSaw::with('pendaftar')->orderBy('peringkat')->get();
 
-        return view('admin.laporan.index', compact('hasil', 'kuota', 'periodeAktif'));
+        return view('admin.laporan.index', compact('hasil', 'kuota', 'periodeAktif', 'namaBeasiswa'));
     }
 
     public function cetak()
     {
         $kuota        = (int) PengaturanSistem::get('kuota_beasiswa', 5);
         $periodeAktif = PengaturanSistem::get('periode_aktif', date('Y'));
+        $namaBeasiswa = PengaturanSistem::get('nama_beasiswa', 'Beasiswa PPA');
         $hasil        = HasilSaw::with('pendaftar')->orderBy('peringkat')->get();
 
-        return view('admin.laporan.cetak', compact('hasil', 'kuota', 'periodeAktif'));
+        return view('admin.laporan.cetak', compact('hasil', 'kuota', 'periodeAktif', 'namaBeasiswa'));
     }
 
     public function exportPdf()
