@@ -2,14 +2,14 @@
 
 @section('title', 'Laporan Hasil Seleksi')
 @section('page-title', 'Laporan Hasil Seleksi')
-@section('breadcrumb', 'Rekap hasil seleksi beasiswa PPA')
+@section('breadcrumb', 'Rekap hasil seleksi beasiswa PPA — Periode ' . $periodeAktif)
 
 @section('content')
 
 <div class="page-header">
     <div class="page-header-left">
         <h1>Laporan Hasil Seleksi</h1>
-        <p>Rekap lengkap hasil seleksi beasiswa — Periode <strong>{{ date('Y') }}</strong></p>
+        <p>Rekap lengkap hasil seleksi beasiswa — Periode <strong>{{ $periodeAktif }}</strong></p>
     </div>
     @if($hasil->isNotEmpty())
     <div style="display: flex; gap: 8px;">
