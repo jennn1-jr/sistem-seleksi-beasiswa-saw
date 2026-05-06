@@ -165,7 +165,7 @@
 
     {{-- ── Judul ─────────────────────────────────────────── --}}
     <div class="title-section">
-        <h2>LAPORAN HASIL SELEKSI BEASISWA PPA</h2>
+        <h2>LAPORAN HASIL SELEKSI {{ strtoupper($namaBeasiswa) }}</h2>
         <p>Periode Tahun Akademik {{ $periodeAktif }}/{{ (int)$periodeAktif + 1 }} &nbsp;|&nbsp; Metode Simple Additive Weighting (SAW)</p>
     </div>
 
