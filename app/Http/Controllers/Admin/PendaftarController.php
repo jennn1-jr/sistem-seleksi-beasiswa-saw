@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pendaftar;
 use App\Models\Kriteria;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PendaftarController extends Controller
 {
@@ -55,10 +57,20 @@ class PendaftarController extends Controller
             'keikutsertaan_organisasi' => 'nullable|integer|min:0',
         ]);
 
-        Pendaftar::create($request->all());
+        $pendaftar = Pendaftar::create($request->all());
+
+        // Auto-buat akun mahasiswa (username = NIM, password = NIM)
+        if (!User::where('username', $request->nim)->exists()) {
+            User::create([
+                'name'     => $request->nama,
+                'username' => $request->nim,
+                'password' => Hash::make($request->nim),
+                'role'     => 'mahasiswa',
+            ]);
+        }
 
         return redirect()->route('admin.pendaftar.index')
-            ->with('success', 'Data pendaftar berhasil ditambahkan.');
+            ->with('success', 'Data pendaftar ditambahkan. Akun login: NIM / password: NIM.');
     }
 
     public function show(Pendaftar $pendaftar)
@@ -96,8 +108,13 @@ class PendaftarController extends Controller
 
     public function destroy(Pendaftar $pendaftar)
     {
+        // Hapus juga akun mahasiswa terkait
+        User::where('username', $pendaftar->nim)
+            ->where('role', 'mahasiswa')
+            ->delete();
+
         $pendaftar->delete();
-        return back()->with('success', 'Data pendaftar berhasil dihapus.');
+        return back()->with('success', 'Data pendaftar dan akun mahasiswa berhasil dihapus.');
     }
 
     // Verifikasi data pendaftar (SRS: FR-07)
