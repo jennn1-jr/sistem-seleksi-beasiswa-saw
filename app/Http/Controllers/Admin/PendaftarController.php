@@ -50,6 +50,7 @@ class PendaftarController extends Controller
             'semester'                 => 'required|integer|min:1|max:14',
             'email'                    => 'nullable|email',
             'no_hp'                    => 'nullable|string|max:20',
+            'password'                 => 'required|string|min:6',
             'ipk'                      => 'nullable|numeric|min:0|max:4',
             'penghasilan_ortu'         => 'nullable|numeric|min:0',
             'semester_aktif'           => 'nullable|integer|min:1|max:14',
@@ -57,20 +58,20 @@ class PendaftarController extends Controller
             'keikutsertaan_organisasi' => 'nullable|integer|min:0',
         ]);
 
-        $pendaftar = Pendaftar::create($request->all());
+        $pendaftar = Pendaftar::create($request->except('password'));
 
-        // Auto-buat akun mahasiswa (username = NIM, password = NIM)
+        // Auto-buat akun mahasiswa dengan password dari form
         if (!User::where('username', $request->nim)->exists()) {
             User::create([
                 'name'     => $request->nama,
                 'username' => $request->nim,
-                'password' => Hash::make($request->nim),
+                'password' => Hash::make($request->password),
                 'role'     => 'mahasiswa',
             ]);
         }
 
         return redirect()->route('admin.pendaftar.index')
-            ->with('success', 'Data pendaftar ditambahkan. Akun login: NIM / password: NIM.');
+            ->with('success', 'Data pendaftar ditambahkan. Login mahasiswa: NIM / password yang telah diset.');
     }
 
     public function show(Pendaftar $pendaftar)
