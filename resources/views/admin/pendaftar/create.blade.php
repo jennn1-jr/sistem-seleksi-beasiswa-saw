@@ -71,34 +71,17 @@
             </div>
 
             {{-- No HP --}}
-            <div class="form-group" style="margin-bottom: 0;">
+            <div class="form-group">
                 <label class="form-label">No. HP / WhatsApp</label>
                 <input type="text" name="no_hp" class="form-control {{ $errors->has('no_hp') ? 'is-invalid' : '' }}"
                        value="{{ old('no_hp') }}" placeholder="08xxxxxxxxxx">
                 @error('no_hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
-        </div>
-    </div>
-
-    {{-- ── Kolom Kanan: Nilai Kriteria ────────────────── --}}
-    <div class="card">
-        <div class="card-header">
-            <div class="card-title">
-                <i class="fas fa-calculator"></i> Nilai Kriteria SAW
-            </div>
-        </div>
-        <div class="card-body">
-
-            <div class="alert alert-info" style="margin-bottom: 20px;">
-                <i class="fas fa-circle-info"></i>
-                <span>Nilai kriteria digunakan untuk perhitungan SAW. Isi sesuai data asli mahasiswa.</span>
-            </div>
-
             {{-- Password Akun Mahasiswa --}}
-            <div class="form-group" style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px dashed #e5e7eb;">
+            <div class="form-group" style="margin-bottom: 0; margin-top: 8px; padding-top: 16px; border-top: 1px dashed #e5e7eb;">
                 <label class="form-label">
-                    <i class="fas fa-key" style="color:#7c3aed; width:16px;"></i>
+                    <i class="fas fa-key" style="color:#7c3aed;"></i>
                     Password Login Mahasiswa <span class="required">*</span>
                 </label>
                 <div style="position: relative;">
@@ -116,6 +99,23 @@
                     Mahasiswa login dengan <strong>NIM</strong> sebagai username dan password ini.
                 </div>
                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+        </div>
+    </div>
+
+    {{-- ── Kolom Kanan: Nilai Kriteria ────────────────── --}}
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="fas fa-calculator"></i> Nilai Kriteria SAW
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="alert alert-info" style="margin-bottom: 20px;">
+                <i class="fas fa-circle-info"></i>
+                <span>Nilai kriteria digunakan untuk perhitungan SAW. Isi sesuai data asli mahasiswa.</span>
             </div>
 
             {{-- C1: IPK --}}
