@@ -94,6 +94,7 @@ class PendaftarController extends Controller
             'semester'                 => 'required|integer|min:1|max:14',
             'email'                    => 'nullable|email',
             'no_hp'                    => 'nullable|string|max:20',
+            'password'                 => 'nullable|string|min:6',
             'ipk'                      => 'nullable|numeric|min:0|max:4',
             'penghasilan_ortu'         => 'nullable|numeric|min:0',
             'semester_aktif'           => 'nullable|integer|min:1|max:14',
@@ -101,10 +102,17 @@ class PendaftarController extends Controller
             'keikutsertaan_organisasi' => 'nullable|integer|min:0',
         ]);
 
-        $pendaftar->update($request->all());
+        $pendaftar->update($request->except('password'));
+
+        // Ganti password akun mahasiswa jika diisi
+        if ($request->filled('password')) {
+            User::where('username', $pendaftar->nim)
+                ->where('role', 'mahasiswa')
+                ->update(['password' => Hash::make($request->password)]);
+        }
 
         return redirect()->route('admin.pendaftar.index')
-            ->with('success', 'Data pendaftar berhasil diperbarui.');
+            ->with('success', 'Data pendaftar berhasil diperbarui.' . ($request->filled('password') ? ' Password mahasiswa ikut diperbarui.' : ''));
     }
 
     public function destroy(Pendaftar $pendaftar)

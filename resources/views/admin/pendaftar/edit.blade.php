@@ -73,11 +73,34 @@
             </div>
 
             {{-- No HP --}}
-            <div class="form-group" style="margin-bottom: 0;">
+            <div class="form-group">
                 <label class="form-label">No. HP / WhatsApp</label>
                 <input type="text" name="no_hp" class="form-control {{ $errors->has('no_hp') ? 'is-invalid' : '' }}"
                        value="{{ old('no_hp', $pendaftar->no_hp) }}">
                 @error('no_hp') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            {{-- Reset Password Akun Mahasiswa --}}
+            <div class="form-group" style="margin-bottom: 0; padding-top: 16px; border-top: 1px dashed #e5e7eb;">
+                <label class="form-label">
+                    <i class="fas fa-key" style="color:#7c3aed;"></i>
+                    Reset Password Login
+                </label>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="pwEdit"
+                           class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                           placeholder="Kosongkan jika tidak ingin mengganti password">
+                    <button type="button" onclick="togglePwEdit()"
+                            style="position:absolute; right:10px; top:50%; transform:translateY(-50%);
+                                   background:none; border:none; color:#9ca3af; cursor:pointer; font-size:14px;">
+                        <i class="fas fa-eye" id="eyeEditIcon"></i>
+                    </button>
+                </div>
+                <div class="form-hint">
+                    <i class="fas fa-circle-info" style="color:#7c3aed;"></i>
+                    Kosongkan jika tidak ingin mengubah password mahasiswa. Minimal 6 karakter.
+                </div>
+                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
         </div>
@@ -239,4 +262,20 @@
     }
     .kriteria-badge.cost { background: #ef4444; }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    function togglePwEdit() {
+        const input = document.getElementById('pwEdit');
+        const icon  = document.getElementById('eyeEditIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
 @endpush
