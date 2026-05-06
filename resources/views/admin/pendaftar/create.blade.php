@@ -95,6 +95,29 @@
                 <span>Nilai kriteria digunakan untuk perhitungan SAW. Isi sesuai data asli mahasiswa.</span>
             </div>
 
+            {{-- Password Akun Mahasiswa --}}
+            <div class="form-group" style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px dashed #e5e7eb;">
+                <label class="form-label">
+                    <i class="fas fa-key" style="color:#7c3aed; width:16px;"></i>
+                    Password Login Mahasiswa <span class="required">*</span>
+                </label>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="pwMahasiswa"
+                           class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+                           placeholder="Buat password untuk login mahasiswa" required>
+                    <button type="button" onclick="togglePw()"
+                            style="position:absolute; right:10px; top:50%; transform:translateY(-50%);
+                                   background:none; border:none; color:#9ca3af; cursor:pointer; font-size:14px;">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+                <div class="form-hint">
+                    <i class="fas fa-circle-info" style="color:#7c3aed;"></i>
+                    Mahasiswa login dengan <strong>NIM</strong> sebagai username dan password ini.
+                </div>
+                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
             {{-- C1: IPK --}}
             <div class="form-group">
                 <label class="form-label">
@@ -235,4 +258,20 @@
     }
     .kriteria-badge.cost { background: #ef4444; }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+    function togglePw() {
+        const input = document.getElementById('pwMahasiswa');
+        const icon  = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
 @endpush
