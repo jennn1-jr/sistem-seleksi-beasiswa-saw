@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SPK Beasiswa — Portal Mahasiswa">
+    <title>@yield('title', 'Portal Mahasiswa') | SPK Beasiswa</title>
+
+    {{-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    @stack('styles')
+
+    <style>
+        /* ─────────────────────────────────────────────────────
+           RESET & BASE
+        ───────────────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f1117;
+            color: #e5e7eb;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ─────────────────────────────────────────────────────
+           SIDEBAR
+        ───────────────────────────────────────────────────── */
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: #16181f;
+            border-right: 1px solid #1f2430;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        /* Logo / Brand */
+        .sidebar-brand {
+            padding: 22px 20px 16px;
+            border-bottom: 1px solid #1f2430;
+        }
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .brand-icon {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg, #6d28d9, #4c1d95);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(109,40,217,0.4);
+        }
+        .brand-text { line-height: 1.2; }
+        .brand-title { font-size: 14px; font-weight: 700; color: #f1f5f9; }
+        .brand-sub   { font-size: 10px; color: #64748b; font-weight: 400; }
+
+        /* User Info */
+        .sidebar-user {
+            padding: 14px 18px;
+            border-bottom: 1px solid #1f2430;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #6d28d9, #4c1d95);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700;
+            color: #fff; flex-shrink: 0;
+        }
+        .user-name { font-size: 13px; font-weight: 600; color: #f1f5f9; }
+        .user-nim  { font-size: 11px; color: #64748b; }
+
+        /* Nav */
+        .sidebar-nav { padding: 12px 0; flex: 1; }
+        .nav-label {
+            font-size: 10px; font-weight: 600; color: #4b5563;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            padding: 10px 20px 4px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+            transition: all 0.15s;
+        }
+        .nav-item:hover { color: #e2e8f0; background: #1e2130; }
+        .nav-item.active {
+            color: #a78bfa;
+            background: rgba(109,40,217,0.12);
+            border-left-color: #7c3aed;
+        }
+        .nav-item i { width: 16px; text-align: center; font-size: 13px; }
+
+        /* Logout */
+        .sidebar-footer {
+            padding: 12px 0;
+            border-top: 1px solid #1f2430;
+        }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            color: #ef4444;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .logout-btn:hover { background: rgba(239,68,68,0.08); }
+        .logout-btn i { width: 16px; text-align: center; }
+
+        /* ─────────────────────────────────────────────────────
+           MAIN CONTENT
+        ───────────────────────────────────────────────────── */
+        .main-wrapper {
+            margin-left: 240px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Topbar */
+        .topbar {
+            height: 60px;
+            background: #16181f;
+            border-bottom: 1px solid #1f2430;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .topbar-left h2  { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+        .topbar-left p   { font-size: 12px; color: #64748b; margin-top: 1px; }
+        .topbar-right    { display: flex; align-items: center; gap: 10px; }
+        .topbar-nim {
+            font-size: 12px; color: #64748b;
+            background: #1e2130;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #1f2430;
+        }
+
+        /* Content area */
+        .content-area { padding: 24px; flex: 1; }
+
+        /* Page header */
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-header-left h1 { font-size: 22px; font-weight: 800; color: #f1f5f9; }
+        .page-header-left p  { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+        /* ─────────────────────────────────────────────────────
+           CARDS
+        ───────────────────────────────────────────────────── */
+        .card {
+            background: #16181f;
+            border: 1px solid #1f2430;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #1f2430;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-title {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-body { padding: 20px; }
+
+        /* ─────────────────────────────────────────────────────
+           STAT CARDS (mahasiswa)
+        ───────────────────────────────────────────────────── */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .stat-card {
+            background: #16181f;
+            border: 1px solid #1f2430;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .stat-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .stat-icon.purple { background: rgba(109,40,217,0.2); color: #a78bfa; }
+        .stat-icon.green  { background: rgba(16,185,129,0.15); color: #34d399; }
+        .stat-icon.yellow { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .stat-icon.blue   { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .stat-value { font-size: 24px; font-weight: 800; color: #f1f5f9; }
+        .stat-label { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+        /* ─────────────────────────────────────────────────────
+           BADGES
+        ───────────────────────────────────────────────────── */
+        .badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 3px 10px; border-radius: 20px;
+            font-size: 11.5px; font-weight: 600;
+        }
+        .badge-success { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge-warning { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+        .badge-danger  { background: rgba(239,68,68,0.15);   color: #f87171; }
+        .badge-purple  { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+
+        /* ─────────────────────────────────────────────────────
+           TABLE
+        ───────────────────────────────────────────────────── */
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #1a1d27;
+            border-bottom: 1px solid #1f2430;
+        }
+        tbody td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #1a1d27;
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+        tbody tr:hover { background: #1a1d27; }
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* ─────────────────────────────────────────────────────
+           ALERTS
+        ───────────────────────────────────────────────────── */
+        .alert {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 12px 16px; border-radius: 10px;
+            font-size: 13px; line-height: 1.5;
+            border: 1px solid;
+        }
+        .alert i { margin-top: 1px; flex-shrink: 0; }
+        .alert-info    { background: rgba(59,130,246,0.1);   color: #93c5fd; border-color: rgba(59,130,246,0.2); }
+        .alert-success { background: rgba(16,185,129,0.1);   color: #6ee7b7; border-color: rgba(16,185,129,0.2); }
+        .alert-warning { background: rgba(245,158,11,0.1);   color: #fcd34d; border-color: rgba(245,158,11,0.2); }
+        .alert-danger  { background: rgba(239,68,68,0.1);    color: #fca5a5; border-color: rgba(239,68,68,0.2); }
+
+        /* ─────────────────────────────────────────────────────
+           FLASH MESSAGES
+        ───────────────────────────────────────────────────── */
+        .flash-container {
+            position: fixed; top: 72px; right: 20px;
+            z-index: 999; display: flex; flex-direction: column; gap: 8px;
+        }
+        .flash {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 16px; border-radius: 10px;
+            font-size: 13px; font-weight: 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+            border: 1px solid;
+            min-width: 280px;
+        }
+        .flash-success { background: #064e3b; color: #6ee7b7; border-color: #065f46; }
+        .flash-error   { background: #7f1d1d; color: #fca5a5; border-color: #991b1b; }
+        @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+    </style>
+</head>
+<body>
+
+{{-- ── Sidebar ─────────────────────────────────────────── --}}
+<aside class="sidebar">
+
+    {{-- Brand --}}
+    <div class="sidebar-brand">
+        <a href="{{ route('mahasiswa.dashboard') }}" class="brand-logo">
+            <div class="brand-icon">🎓</div>
+            <div class="brand-text">
+                <div class="brand-title">SPK Beasiswa</div>
+                <div class="brand-sub">Portal Mahasiswa</div>
+            </div>
+        </a>
+    </div>
+
+    {{-- User Info --}}
+    <div class="sidebar-user">
+        <div class="user-avatar">
+            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+        </div>
+        <div>
+            <div class="user-name">{{ Auth::user()->name }}</div>
+            <div class="user-nim">{{ Auth::user()->username }}</div>
+        </div>
+    </div>
+
+    {{-- Nav --}}
+    <nav class="sidebar-nav">
+        <div class="nav-label">Menu</div>
+
+        <a href="{{ route('mahasiswa.dashboard') }}"
+           class="nav-item {{ request()->routeIs('mahasiswa.dashboard') ? 'active' : '' }}">
+            <i class="fas fa-house"></i> Dashboard
+        </a>
+
+        <a href="{{ route('mahasiswa.pengumuman') }}"
+           class="nav-item {{ request()->routeIs('mahasiswa.pengumuman') ? 'active' : '' }}">
+            <i class="fas fa-bullhorn"></i> Pengumuman
+        </a>
+    </nav>
+
+    {{-- Logout --}}
+    <div class="sidebar-footer">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-btn">
+                <i class="fas fa-right-from-bracket"></i> Keluar
+            </button>
+        </form>
+    </div>
+</aside>
+
+{{-- ── Main Wrapper ────────────────────────────────────── --}}
+<div class="main-wrapper">
+
+    {{-- Topbar --}}
+    <div class="topbar">
+        <div class="topbar-left">
+            <h2>@yield('page-title', 'Dashboard')</h2>
+            <p>@yield('breadcrumb', '')</p>
+        </div>
+        <div class="topbar-right">
+            <span class="topbar-nim">
+                <i class="fas fa-id-card" style="color:#7c3aed;"></i>
+                {{ Auth::user()->username }}
+            </span>
+        </div>
+    </div>
+
+    {{-- Flash Messages --}}
+    @if(session('success') || session('error'))
+    <div class="flash-container" id="flashContainer">
+        @if(session('success'))
+            <div class="flash flash-success">
+                <i class="fas fa-circle-check"></i> {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="flash flash-error">
+                <i class="fas fa-circle-xmark"></i> {{ session('error') }}
+            </div>
+        @endif
+    </div>
+    <script>
+        setTimeout(() => {
+            const el = document.getElementById('flashContainer');
+            if (el) el.style.display = 'none';
+        }, 4000);
+    </script>
+    @endif
+
+    {{-- Content --}}
+    <main class="content-area">
+        @yield('content')
+    </main>
+</div>
+
+@stack('scripts')
+</body>
+</html>
