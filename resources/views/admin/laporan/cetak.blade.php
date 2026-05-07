@@ -156,7 +156,7 @@
         </div>
         <div class="header-info">
             <p>Dicetak oleh: <strong>{{ Auth::user()->name }}</strong></p>
-            <p>Tanggal cetak: <strong>{{ now()->format('d F Y, H:i') }} WIB</strong></p>
+            <p>Tanggal cetak: <strong>{{ now()->timezone('Asia/Jakarta')->format('d F Y, H:i') }} WIB</strong></p>
             @if($hasil->isNotEmpty())
                 <p>Tgl. perhitungan: <strong>{{ $hasil->first()->dieksekusi_at?->format('d F Y') }}</strong></p>
             @endif
