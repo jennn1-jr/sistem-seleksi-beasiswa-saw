@@ -13,16 +13,17 @@ class PengumumanController extends Controller
 {
     public function index()
     {
-        $user      = Auth::user();
-        $pendaftar = Pendaftar::where('nim', $user->nim)->first();
-        $hasil     = null;
-        $kuota     = (int) PengaturanSistem::get('kuota_beasiswa', 5);
-        $kriteria  = Kriteria::where('aktif', true)->orderBy('kode')->get();
+        $user         = Auth::user();
+        $pendaftar    = Pendaftar::where('nim', $user->username)->first();
+        $hasil        = null;
+        $kuota        = (int) PengaturanSistem::get('kuota_beasiswa', 5);
+        $namaBeasiswa = PengaturanSistem::get('nama_beasiswa', 'Beasiswa PPA');
+        $kriteria     = Kriteria::where('aktif', true)->orderBy('kode')->get();
 
         if ($pendaftar) {
             $hasil = HasilSaw::where('pendaftar_id', $pendaftar->id)->first();
         }
 
-        return view('mahasiswa.pengumuman', compact('pendaftar', 'hasil', 'kuota', 'kriteria'));
+        return view('mahasiswa.pengumuman', compact('pendaftar', 'hasil', 'kuota', 'kriteria', 'namaBeasiswa'));
     }
 }
