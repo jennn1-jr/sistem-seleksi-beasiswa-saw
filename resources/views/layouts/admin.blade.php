@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') — SPK Beasiswa</title>
+    <title>@yield('title', 'Dashboard') — Kalku Beasiswa</title>
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -487,9 +488,12 @@
 
     {{-- Brand --}}
     <a href="{{ route('admin.dashboard') }}" class="sidebar-brand">
-        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+        <img src="{{ asset('images/logo.png') }}"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+             alt="Logo" class="brand-icon" style="object-fit:contain; padding:4px; background:linear-gradient(135deg,#7c3aed,#5b21b6);">
+        <div class="brand-icon" style="display:none;"><i class="fas fa-graduation-cap"></i></div>
         <div class="brand-text">
-            <span class="brand-name">SPK Beasiswa</span>
+            <span class="brand-name">Kalku Beasiswa</span>
             <span class="brand-sub">Panel Administrator</span>
         </div>
     </a>
