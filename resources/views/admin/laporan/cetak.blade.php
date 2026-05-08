@@ -148,7 +148,9 @@
     {{-- ── Header ───────────────────────────────────────── --}}
     <div class="header">
         <div class="header-logo">
-            <div class="logo-icon">🎓</div>
+            <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                 style="width:50px; height:50px; object-fit:contain; flex-shrink:0;"
+                 onerror="this.outerHTML='<div class=\'logo-icon\'>🎓</div>'">
             <div class="logo-text">
                 <h1>SPK Beasiswa PPA</h1>
                 <p>Sistem Pendukung Keputusan — Metode SAW</p>

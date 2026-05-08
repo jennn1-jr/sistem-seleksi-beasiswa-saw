@@ -320,7 +320,10 @@
     {{-- Brand --}}
     <div class="sidebar-brand">
         <a href="{{ route('mahasiswa.dashboard') }}" class="brand-logo">
-            <div class="brand-icon">🎓</div>
+            <img src="{{ asset('images/logo.png') }}"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                 alt="Logo" class="brand-icon" style="object-fit:contain; padding:4px; background:linear-gradient(135deg,#6d28d9,#4c1d95);">
+            <div class="brand-icon" style="display:none;">🎓</div>
             <div class="brand-text">
                 <div class="brand-title">SPK Beasiswa</div>
                 <div class="brand-sub">Portal Mahasiswa</div>
