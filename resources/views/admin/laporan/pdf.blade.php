@@ -126,6 +126,12 @@
     {{-- ── Header ─────────────────────────────────── --}}
     <table class="header-table">
         <tr>
+            <td style="width:52px; vertical-align:middle; padding-right:10px;">
+                @if(!empty($logoPdf))
+                    <img src="{{ $logoPdf }}" alt="Logo"
+                         style="width:48px; height:48px; object-fit:contain;">
+                @endif
+            </td>
             <td class="header-left">
                 <h1>SPK Beasiswa - Sistem Pendukung Keputusan</h1>
                 <p>Metode Simple Additive Weighting (SAW)</p>

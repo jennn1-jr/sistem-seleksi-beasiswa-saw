@@ -36,7 +36,13 @@ class LaporanController extends Controller
         $namaBeasiswa = PengaturanSistem::get('nama_beasiswa', 'Beasiswa PPA');
         $hasil        = HasilSaw::with('pendaftar')->orderBy('peringkat')->get();
 
-        $pdf = Pdf::loadView('admin.laporan.pdf', compact('hasil', 'kuota', 'periodeAktif', 'namaBeasiswa'))
+        // Logo sebagai base64 agar dompdf bisa render tanpa request jaringan
+        $logoPath   = public_path('images/logo.png');
+        $logoPdf    = file_exists($logoPath)
+                        ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath))
+                        : null;
+
+        $pdf = Pdf::loadView('admin.laporan.pdf', compact('hasil', 'kuota', 'periodeAktif', 'namaBeasiswa', 'logoPdf'))
                   ->setPaper('a4', 'portrait');
 
         $filename = 'laporan-seleksi-' . strtolower(str_replace(' ', '-', $namaBeasiswa)) . '-' . $periodeAktif . '.pdf';
