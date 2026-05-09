@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +16,7 @@
         /* ── Reset & Base ─────────────────────────────────── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* ── Light Mode (default) ──────────────────────────── */
         :root {
             --primary:       #7c3aed;
             --primary-dark:  #5b21b6;
@@ -35,6 +36,121 @@
             --radius-sm:     8px;
             --shadow:        0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
             --shadow-md:     0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        /* ── Dark Mode ─────────────────────────────────────── */
+        [data-theme="dark"] {
+            --bg:            #0f1117;
+            --surface:       #1a1d27;
+            --border:        #2a2f3e;
+            --text:          #f1f5f9;
+            --text-muted:    #cbd5e1;
+            --primary-light: rgba(124,58,237,0.2);
+            --shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md:     0 4px 12px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Teks & heading dark mode */
+        [data-theme="dark"] .topbar-title        { color: #f1f5f9; }
+        [data-theme="dark"] .topbar-breadcrumb   { color: #94a3b8; }
+        [data-theme="dark"] .topbar-user-name    { color: #f1f5f9; }
+        [data-theme="dark"] .topbar-user-role    { color: #a78bfa; }
+        [data-theme="dark"] .brand-name          { color: #f1f5f9; }
+        [data-theme="dark"] .brand-sub           { color: #64748b; }
+        [data-theme="dark"] .nav-section-label   { color: #64748b; }
+        [data-theme="dark"] .card-title          { color: #f1f5f9; }
+        [data-theme="dark"] .page-header-left h1 { color: #f1f5f9; }
+        [data-theme="dark"] .page-header-left p  { color: #94a3b8; }
+        [data-theme="dark"] .stat-value          { color: #f1f5f9; }
+        [data-theme="dark"] .stat-label          { color: #94a3b8; }
+
+        /* Tabel dark mode */
+        [data-theme="dark"] thead th  { background: #12141c; color: #94a3b8; border-color: #2a2f3e; }
+        [data-theme="dark"] tbody td  { color: #e2e8f0; border-color: #2a2f3e; }
+        [data-theme="dark"] tbody tr:hover { background: #20243a; }
+        [data-theme="dark"] tbody tr:last-child td { border-bottom: none; }
+
+        /* Badge dark mode */
+        [data-theme="dark"] .badge-success { background: rgba(16,185,129,0.2);  color: #6ee7b7; }
+        [data-theme="dark"] .badge-warning { background: rgba(245,158,11,0.2);  color: #fcd34d; }
+        [data-theme="dark"] .badge-danger  { background: rgba(239,68,68,0.2);   color: #fca5a5; }
+        [data-theme="dark"] .badge-info    { background: rgba(59,130,246,0.2);  color: #93c5fd; }
+        [data-theme="dark"] .badge-purple  { background: rgba(124,58,237,0.2);  color: #c4b5fd; }
+
+        /* Alert dark mode */
+        [data-theme="dark"] .alert-success { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #6ee7b7; }
+        [data-theme="dark"] .alert-danger  { background: rgba(239,68,68,0.12);  border-color: rgba(239,68,68,0.3);  color: #fca5a5; }
+        [data-theme="dark"] .alert-warning { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3); color: #fcd34d; }
+        [data-theme="dark"] .alert-info    { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.3); color: #93c5fd; }
+
+        /* Button secondary dark */
+        [data-theme="dark"] .btn-secondary { background: #252a3a; color: #e2e8f0; border-color: #2a2f3e; }
+        [data-theme="dark"] .btn-secondary:hover { background: #2e3450; }
+
+        /* Topbar user badge dark */
+        [data-theme="dark"] .topbar-user { background: #12141c; border-color: #2a2f3e; }
+        [data-theme="dark"] .btn-logout:hover { background: rgba(239,68,68,0.12); }
+
+        /* Nav items dark */
+        [data-theme="dark"] .nav-item       { color: #94a3b8; }
+        [data-theme="dark"] .nav-item:hover { color: #f1f5f9; background: rgba(124,58,237,0.12); }
+        [data-theme="dark"] .nav-item.active { color: #a78bfa; background: rgba(124,58,237,0.18); }
+
+        /* ── Form inputs dark mode (supaya tidak putih menyilaukan) ── */
+        [data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]),
+        [data-theme="dark"] select,
+        [data-theme="dark"] textarea {
+            background-color: #12141c !important;
+            color: #f1f5f9 !important;
+            border-color: #2a2f3e !important;
+        }
+        [data-theme="dark"] input::placeholder,
+        [data-theme="dark"] textarea::placeholder { color: #64748b !important; }
+        [data-theme="dark"] select option { background: #1a1d27; color: #f1f5f9; }
+        [data-theme="dark"] input:focus,
+        [data-theme="dark"] select:focus,
+        [data-theme="dark"] textarea:focus {
+            border-color: #7c3aed !important;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.2) !important;
+        }
+
+        /* Label & form-related teks */
+        [data-theme="dark"] label   { color: #cbd5e1; }
+        [data-theme="dark"] small   { color: #94a3b8; }
+        [data-theme="dark"] legend  { color: #f1f5f9; }
+
+        /* Stat icon purple dark */
+        [data-theme="dark"] .stat-icon.purple { background: rgba(124,58,237,0.2); color: #a78bfa; }
+        [data-theme="dark"] .stat-icon.green  { background: rgba(16,185,129,0.15); color: #34d399; }
+        [data-theme="dark"] .stat-icon.yellow { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        [data-theme="dark"] .stat-icon.blue   { background: rgba(59,130,246,0.15); color: #60a5fa; }
+
+        /* Smooth transitions */
+        [data-theme="dark"] body, [data-theme="dark"] .sidebar,
+        [data-theme="dark"] .topbar, [data-theme="dark"] .card,
+        [data-theme="dark"] .stat-card { transition: background 0.25s, color 0.25s; }
+
+        /* ── Theme Toggle Button ───────────────────────────── */
+        .btn-theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s, color 0.2s, transform 0.3s;
+            flex-shrink: 0;
+        }
+        .btn-theme-toggle:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            transform: rotate(15deg);
         }
 
         body {
@@ -583,6 +699,10 @@
         </div>
     </div>
     <div class="topbar-right">
+        {{-- Dark / Light Mode Toggle --}}
+        <button class="btn-theme-toggle" id="btnThemeToggle" title="Ganti Tema" aria-label="Toggle dark mode">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
         <div class="topbar-user">
             <div class="topbar-avatar">
                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -635,9 +755,17 @@
 </div>
 
 <script>
+    // ── Apply saved theme IMMEDIATELY (no flash) ────────
+    (function() {
+        const saved = localStorage.getItem('kalku_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
+    })();
+</script>
+
+<script>
     // ── Hamburger toggle (mobile) ───────────────────────
-    const sidebar  = document.getElementById('sidebar');
-    const overlay  = document.getElementById('sidebarOverlay');
+    const sidebar   = document.getElementById('sidebar');
+    const overlay   = document.getElementById('sidebarOverlay');
     const hamburger = document.getElementById('btnHamburger');
 
     hamburger?.addEventListener('click', () => {
@@ -647,6 +775,31 @@
     overlay?.addEventListener('click', () => {
         sidebar.classList.remove('open');
         overlay.classList.remove('show');
+    });
+
+    // ── Dark / Light Mode Toggle ─────────────────────────
+    const btnToggle = document.getElementById('btnThemeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html      = document.documentElement;
+
+    function applyTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('kalku_theme', theme);
+        if (theme === 'dark') {
+            themeIcon.className = 'fas fa-sun';
+            btnToggle.title = 'Ganti ke Mode Terang';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+            btnToggle.title = 'Ganti ke Mode Gelap';
+        }
+    }
+
+    // Sync icon on page load
+    applyTheme(localStorage.getItem('kalku_theme') || 'light');
+
+    btnToggle?.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
     // ── Auto-dismiss flash messages (5 detik) ──────────
