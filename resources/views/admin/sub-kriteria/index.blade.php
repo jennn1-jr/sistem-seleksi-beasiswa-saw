@@ -33,13 +33,13 @@
                 <span class="badge badge-danger" style="font-size:10px;">Cost</span>
             @endif
         </div>
-        <div style="font-size: 12px; color: #6b7280;">Bobot: <strong>{{ $k->bobot }}</strong></div>
+        <div style="font-size: 12px; color: var(--text-muted);">Bobot: <strong>{{ $k->bobot }}</strong></div>
     </div>
 
     {{-- Tabel Sub Kriteria --}}
     <div class="table-wrapper">
         @if($k->subKriteria->isEmpty())
-            <div style="padding: 32px; text-align: center; color: #9ca3af; font-size: 13px;">
+            <div style="padding: 32px; text-align: center; color: var(--text-muted); font-size: 13px;">
                 <i class="fas fa-inbox" style="font-size: 28px; display: block; margin-bottom: 8px; opacity: 0.4;"></i>
                 Belum ada sub kriteria untuk {{ $k->kode }}.
             </div>
@@ -58,8 +58,8 @@
                 <tbody>
                     @foreach($k->subKriteria->sortBy('nilai_min') as $i => $sub)
                     <tr>
-                        <td style="color:#9ca3af; font-size:12px;">{{ $i + 1 }}</td>
-                        <td style="font-size:13.5px;">{{ $sub->label ?? '-' }}</td>
+                        <td style="color: var(--text-muted); font-size:12px;">{{ $i + 1 }}</td>
+                        <td style="font-size:13.5px; color: var(--text);">{{ $sub->label ?? '-' }}</td>
                         <td style="text-align:center; font-size:13px;">
                             @if($k->kode === 'C2')
                                 Rp {{ number_format($sub->nilai_min, 0, ',', '.') }}
@@ -103,29 +103,29 @@
     </div>
 
     {{-- Form Tambah Sub Kriteria (inline) --}}
-    <div style="padding: 14px 20px; border-top: 1px solid #e5e7eb; background: #fafafa;">
+    <div class="subk-form-bar">
         <form method="POST" action="{{ route('admin.sub-kriteria.store') }}"
               style="display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;">
             @csrf
             <input type="hidden" name="kriteria_id" value="{{ $k->id }}">
 
             <div style="flex: 2; min-width: 120px;">
-                <label style="font-size:11px; font-weight:600; color:#6b7280; text-transform:uppercase; display:block; margin-bottom:4px;">Label</label>
+                <label class="subk-label">Label</label>
                 <input type="text" name="label" placeholder="Contoh: IPK Sangat Baik"
                        class="form-control-sm">
             </div>
             <div style="flex: 1; min-width: 90px;">
-                <label style="font-size:11px; font-weight:600; color:#6b7280; text-transform:uppercase; display:block; margin-bottom:4px;">Nilai Min</label>
+                <label class="subk-label">Nilai Min</label>
                 <input type="number" name="nilai_min" step="any" required placeholder="0"
                        class="form-control-sm">
             </div>
             <div style="flex: 1; min-width: 90px;">
-                <label style="font-size:11px; font-weight:600; color:#6b7280; text-transform:uppercase; display:block; margin-bottom:4px;">Nilai Max</label>
+                <label class="subk-label">Nilai Max</label>
                 <input type="number" name="nilai_max" step="any" required placeholder="100"
                        class="form-control-sm">
             </div>
             <div style="flex: 1; min-width: 70px;">
-                <label style="font-size:11px; font-weight:600; color:#6b7280; text-transform:uppercase; display:block; margin-bottom:4px;">Skor</label>
+                <label class="subk-label">Skor</label>
                 <input type="number" name="skor" step="any" required placeholder="75"
                        class="form-control-sm">
             </div>
@@ -141,9 +141,9 @@
 @endforeach
 
 {{-- ── Modal Edit Sub Kriteria ─────────────────────────── --}}
-<div id="editModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200; align-items:center; justify-content:center;">
-    <div style="background:#fff; border-radius:12px; padding:24px; width:100%; max-width:440px; margin:20px; box-shadow:0 20px 60px rgba(0,0,0,0.15);">
-        <h3 style="font-size:16px; font-weight:700; margin-bottom:20px; color:#1f2937;">
+<div id="editModal" class="edit-modal-overlay">
+    <div class="edit-modal-box">
+        <h3 class="edit-modal-title">
             <i class="fas fa-pen" style="color:#7c3aed;"></i> Edit Sub Kriteria
         </h3>
         <form method="POST" id="editForm">
@@ -178,30 +178,85 @@
 
 @push('styles')
 <style>
+    /* ── Form bar bawah tiap card ── */
+    .subk-form-bar {
+        padding: 14px 20px;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+    }
+
+    /* Label form tambah */
+    .subk-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    /* Input kecil */
     .form-control-sm {
         width: 100%;
         padding: 7px 10px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border);
         border-radius: 7px;
         font-size: 13px;
         font-family: inherit;
         outline: none;
-        color: #1f2937;
+        background: var(--surface);
+        color: var(--text);
+        transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .form-control-sm:focus { border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,0.1); }
+    .form-control-sm::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .form-control-sm:focus { border-color: #7c3aed; box-shadow: 0 0 0 2px rgba(124,58,237,0.15); }
+
+    /* Input modal */
     .form-control {
         width: 100%;
         padding: 9px 12px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border);
         border-radius: 8px;
         font-size: 13.5px;
         font-family: inherit;
         outline: none;
-        color: #1f2937;
+        background: var(--surface);
+        color: var(--text);
+        transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .form-control:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
-    .form-label { font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px; display: block; }
-    .form-label-sm { font-size: 12px; font-weight: 500; color: #6b7280; margin-bottom: 4px; display: block; }
+    .form-control::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .form-control:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+
+    /* Label modal */
+    .form-label    { font-size: 13px;   font-weight: 500; color: var(--text-muted); margin-bottom: 6px;  display: block; }
+    .form-label-sm { font-size: 12px;   font-weight: 500; color: var(--text-muted); margin-bottom: 4px;  display: block; }
+
+    /* Modal overlay & box */
+    .edit-modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+    }
+    .edit-modal-box {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        width: 100%;
+        max-width: 440px;
+        margin: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .edit-modal-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--text);
+    }
 </style>
 @endpush
 

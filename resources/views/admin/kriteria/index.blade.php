@@ -30,7 +30,7 @@
         <div class="card-title">
             <i class="fas fa-list-check"></i>
             Daftar Kriteria
-            <span style="background: #ede9fe; color: #7c3aed; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600;">
+            <span class="kriteria-count-badge">
                 {{ $kriteria->count() }} kriteria
             </span>
         </div>
@@ -60,7 +60,7 @@
                         </span>
                     </td>
                     <td>
-                        <div style="font-weight: 500; font-size: 14px;">{{ $k->nama }}</div>
+                        <div class="kriteria-nama">{{ $k->nama }}</div>
                     </td>
                     <td style="text-align: center;">
                         @if($k->isBenefit())
@@ -74,7 +74,7 @@
                         @endif
                     </td>
                     <td style="text-align: center;">
-                        <span style="font-size: 20px; font-weight: 800; color: #1f2937;">{{ $k->bobot }}</span>
+                        <span class="bobot-value">{{ $k->bobot }}</span>
                     </td>
                     <td style="text-align: center;">
                         @if($k->aktif)
@@ -96,15 +96,15 @@
     </div>
 
     {{-- Footer: Keterangan Rumus SAW --}}
-    <div style="padding: 16px 20px; border-top: 1px solid #e5e7eb; background: #fafafa; border-radius: 0 0 12px 12px;">
-        <div style="font-size: 12px; color: #6b7280; display: flex; gap: 24px; flex-wrap: wrap;">
+    <div class="kriteria-footer">
+        <div class="kriteria-footer-text">
             <span><i class="fas fa-circle-info" style="color: #7c3aed;"></i>
                 <strong>Benefit:</strong> Normalisasi = x<sub>ij</sub> / max(x<sub>ij</sub>)
             </span>
             <span><i class="fas fa-circle-info" style="color: #ef4444;"></i>
                 <strong>Cost:</strong> Normalisasi = min(x<sub>ij</sub>) / x<sub>ij</sub>
             </span>
-            <span><i class="fas fa-circle-info" style="color: #6b7280;"></i>
+            <span><i class="fas fa-circle-info" style="color: var(--text-muted);"></i>
                 <strong>Preferensi:</strong> V<sub>i</sub> = Σ (W<sub>j</sub> × R<sub>ij</sub>)
             </span>
         </div>
@@ -112,3 +112,43 @@
 </div>
 
 @endsection
+
+@push('styles')
+<style>
+    /* Badge count kriteria */
+    .kriteria-count-badge {
+        background: #ede9fe; color: #7c3aed;
+        font-size: 11px; padding: 2px 8px;
+        border-radius: 20px; font-weight: 600;
+    }
+    [data-theme="dark"] .kriteria-count-badge {
+        background: rgba(124,58,237,0.2); color: #c4b5fd;
+    }
+
+    /* Nama kriteria */
+    .kriteria-nama { font-weight: 500; font-size: 14px; color: var(--text); }
+
+    /* Nilai bobot (W) — ini yang utama */
+    .bobot-value {
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--text);
+    }
+
+    /* Footer rumus */
+    .kriteria-footer {
+        padding: 16px 20px;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+        border-radius: 0 0 12px 12px;
+    }
+    .kriteria-footer-text {
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+    .kriteria-footer-text strong { color: var(--text); }
+</style>
+@endpush
