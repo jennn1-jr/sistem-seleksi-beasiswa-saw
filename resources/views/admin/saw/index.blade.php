@@ -69,8 +69,8 @@
     <div style="display: flex; flex-direction: column; gap: 20px;">
 
         {{-- Card Eksekusi --}}
-        <div class="card" style="border: 2px solid {{ $siap_hitung > 0 ? '#c4b5fd' : '#e5e7eb' }};">
-            <div class="card-header" style="background: {{ $siap_hitung > 0 ? '#faf5ff' : '#f9fafb' }};">
+        <div class="card saw-exec-card {{ $siap_hitung > 0 ? 'card-ready' : 'card-empty' }}">
+            <div class="card-header saw-exec-header {{ $siap_hitung > 0 ? 'header-ready' : 'header-empty' }}">
                 <div class="card-title">
                     <i class="fas fa-calculator" style="color: #7c3aed;"></i>
                     Jalankan Perhitungan SAW
@@ -162,7 +162,7 @@
             <div class="card-title">
                 <i class="fas fa-list-check"></i> Kriteria yang Digunakan
             </div>
-            <span style="font-size: 12px; color: #6b7280;">
+            <span class="text-muted-label">
                 Total bobot: <strong>{{ $kriteria->sum('bobot') }}</strong>
             </span>
         </div>
@@ -187,7 +187,7 @@
                                 {{ $k->kode }}
                             </span>
                         </td>
-                        <td style="font-size:13.5px; font-weight:500;">{{ $k->nama }}</td>
+                        <td class="td-kriteria-nama">{{ $k->nama }}</td>
                         <td style="text-align:center;">
                             @if($k->isBenefit())
                                 <span class="badge badge-purple" style="font-size:10px;">Benefit</span>
@@ -195,7 +195,7 @@
                                 <span class="badge badge-danger" style="font-size:10px;">Cost</span>
                             @endif
                         </td>
-                        <td style="text-align:center; font-size:18px; font-weight:800; color:#1f2937;">
+                        <td class="td-bobot">
                             {{ $k->bobot }}
                         </td>
                     </tr>
@@ -206,12 +206,12 @@
 
         {{-- Peringatan jika pendaftar belum lengkap --}}
         @if($total_terverifikasi > $siap_hitung)
-            <div style="padding: 14px 20px; border-top: 1px solid #e5e7eb; background: #fffbeb;">
-                <div style="font-size: 12px; color: #92400e;">
+            <div class="warn-bar">
+                <div class="warn-bar-text">
                     <i class="fas fa-triangle-exclamation"></i>
                     <strong>{{ $total_terverifikasi - $siap_hitung }}</strong> pendaftar terverifikasi memiliki nilai tidak lengkap dan tidak akan dihitung.
                     <a href="{{ route('admin.pendaftar.index') }}?status=terverifikasi"
-                       style="color: #7c3aed; font-weight: 600;">Cek di sini →</a>
+                       class="warn-link">Cek di sini →</a>
                 </div>
             </div>
         @endif
@@ -233,8 +233,31 @@
         display: flex; align-items: center; justify-content: center;
         flex-shrink: 0; margin-top: 1px;
     }
-    .step-title { font-size: 13.5px; font-weight: 600; color: #1f2937; margin-bottom: 3px; }
-    .step-desc  { font-size: 12px; color: #6b7280; line-height: 1.5; }
+    .step-title { font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .step-desc  { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+    /* SAW card exec */
+    .card-ready { border: 2px solid #c4b5fd; }
+    .card-empty { border: 2px solid var(--border); }
+    .saw-exec-header.header-ready { background: #faf5ff; }
+    .saw-exec-header.header-empty { background: var(--bg); }
+    [data-theme="dark"] .saw-exec-header.header-ready { background: rgba(124,58,237,0.12); }
+    [data-theme="dark"] .saw-exec-header.header-empty { background: var(--surface); }
+    [data-theme="dark"] .card-ready { border-color: rgba(124,58,237,0.5); }
+
+    /* Teks label "Total bobot" */
+    .text-muted-label { font-size: 12px; color: var(--text-muted); }
+
+    /* Kolom nama & bobot kriteria */
+    .td-kriteria-nama { font-size: 13.5px; font-weight: 500; color: var(--text); }
+    .td-bobot { text-align: center; font-size: 18px; font-weight: 800; color: var(--text); }
+
+    /* Warning bar bawah tabel */
+    .warn-bar { padding: 14px 20px; border-top: 1px solid var(--border); background: #fffbeb; }
+    .warn-bar-text { font-size: 12px; color: #92400e; }
+    .warn-link { color: #7c3aed; font-weight: 600; }
+    [data-theme="dark"] .warn-bar { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.25); }
+    [data-theme="dark"] .warn-bar-text { color: #fcd34d; }
 </style>
 @endpush
 
