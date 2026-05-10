@@ -116,9 +116,9 @@
     </div>
 
     {{-- Info keamanan --}}
-    <div style="padding:12px 20px; border-top:1px solid #e5e7eb; background:#fafafa;
+    <div style="padding:12px 20px; border-top:1px solid var(--border); background:var(--bg);
                 border-radius: 0 0 12px 12px;">
-        <div style="font-size:12px; color:#9ca3af; display:flex; align-items:center; gap:6px;">
+        <div style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
             <i class="fas fa-shield" style="color:#7c3aed;"></i>
             Akun yang sedang login tidak bisa dihapus. Pastikan selalu ada minimal 1 akun admin aktif.
         </div>

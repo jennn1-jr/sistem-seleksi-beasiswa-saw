@@ -95,7 +95,7 @@
                             {{ $pendaftar->firstItem() + $i }}
                         </td>
                         <td>
-                            <span style="font-weight: 600; font-size: 13px; color: #374151;">{{ $p->nim }}</span>
+                            <span style="font-weight: 600; font-size: 13px; color: var(--text);">{{ $p->nim }}</span>
                         </td>
                         <td>
                             <div style="font-weight: 500; font-size: 13.5px;">{{ $p->nama }}</div>
