@@ -4,6 +4,36 @@
 @section('page-title', 'Dashboard')
 @section('breadcrumb', 'Selamat datang, ' . Auth::user()->name)
 
+@push('styles')
+<style>
+    /* Theme helpers for dashboard mahasiswa */
+    .text-on-dark { color: #f1f5f9 !important; }
+    .text-on-dark-soft { color: #cbd5e1 !important; }
+    .muted-adaptive { color: var(--text-sub) !important; }
+    .title-adaptive { color: var(--text-head); }
+    .row-dark-surface {
+        background: #1a1d27;
+        border-radius: 10px;
+    }
+    .criteria-row {
+        border-bottom: 1px solid var(--row-border) !important;
+    }
+    .empty-state {
+        color: var(--text-sub) !important;
+    }
+    .flow-step-pending {
+        background: var(--table-head) !important;
+        border-color: var(--border) !important;
+        color: var(--text-sub) !important;
+    }
+    .flow-step-done {
+        background: rgba(109, 40, 217, 0.3) !important;
+        border-color: #7c3aed !important;
+        color: #a78bfa !important;
+    }
+</style>
+@endpush
+
 @section('content')
 
 {{-- ── Greeting Banner ─────────────────────────────────── --}}
@@ -22,10 +52,10 @@
                     text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">
             <i class="fas fa-graduation-cap"></i> Portal Beasiswa
         </div>
-        <h2 style="font-size: 20px; font-weight: 800; color: #f1f5f9; margin-bottom: 6px;">
+        <h2 class="text-on-dark" style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">
             Halo, {{ Auth::user()->name }}! 👋
         </h2>
-        <p style="font-size: 13px; color: #94a3b8;">
+        <p class="text-on-dark-soft" style="font-size: 13px;">
             NIM: <strong style="color: #a78bfa;">{{ Auth::user()->username }}</strong>
             &nbsp;|&nbsp; Sistem Seleksi Beasiswa — Metode SAW
         </p>
@@ -111,9 +141,8 @@
                     <div style="display: flex; flex-direction: column; gap: 12px;">
 
                         {{-- Status verifikasi --}}
-                        <div style="display: flex; justify-content: space-between; align-items: center;
-                                    padding: 12px; background: #1a1d27; border-radius: 10px;">
-                            <span style="font-size: 13px; color: #94a3b8;">Verifikasi Data</span>
+                        <div class="row-dark-surface" style="display: flex; justify-content: space-between; align-items: center; padding: 12px;">
+                            <span class="text-on-dark-soft" style="font-size: 13px;">Verifikasi Data</span>
                             @if($pendaftar->status_verifikasi === 'terverifikasi')
                                 <span class="badge badge-success"><i class="fas fa-circle-check"></i> Terverifikasi</span>
                             @elseif($pendaftar->status_verifikasi === 'pending')
@@ -124,9 +153,8 @@
                         </div>
 
                         {{-- Nilai lengkap --}}
-                        <div style="display: flex; justify-content: space-between; align-items: center;
-                                    padding: 12px; background: #1a1d27; border-radius: 10px;">
-                            <span style="font-size: 13px; color: #94a3b8;">Kelengkapan Nilai</span>
+                        <div class="row-dark-surface" style="display: flex; justify-content: space-between; align-items: center; padding: 12px;">
+                            <span class="text-on-dark-soft" style="font-size: 13px;">Kelengkapan Nilai</span>
                             @if($pendaftar->nilaiLengkap())
                                 <span class="badge badge-success"><i class="fas fa-check"></i> Lengkap (C1-C5)</span>
                             @else
@@ -135,9 +163,8 @@
                         </div>
 
                         {{-- Hasil SAW --}}
-                        <div style="display: flex; justify-content: space-between; align-items: center;
-                                    padding: 12px; background: #1a1d27; border-radius: 10px;">
-                            <span style="font-size: 13px; color: #94a3b8;">Hasil Seleksi SAW</span>
+                        <div class="row-dark-surface" style="display: flex; justify-content: space-between; align-items: center; padding: 12px;">
+                            <span class="text-on-dark-soft" style="font-size: 13px;">Hasil Seleksi SAW</span>
                             @if($hasilSaw)
                                 @if($hasilSaw->lolos)
                                     <span class="badge badge-success"><i class="fas fa-trophy"></i> Lolos Beasiswa</span>
@@ -185,18 +212,17 @@
                         ['icon'=>'fa-calculator',     'label'=>'Perhitungan SAW dieksekusi'],
                     ] as $i => $s)
                     <div style="display:flex; align-items:center; gap:10px; opacity: {{ $step > $i ? '1' : '0.4' }};">
-                        <div style="width:28px; height:28px; border-radius:50%; flex-shrink:0;
-                                    background: {{ $step > $i ? 'rgba(109,40,217,0.3)' : '#1a1d27' }};
-                                    border: 2px solid {{ $step > $i ? '#7c3aed' : '#374151' }};
+                        <div class="{{ $step > $i ? 'flow-step-done' : 'flow-step-pending' }}" style="width:28px; height:28px; border-radius:50%; flex-shrink:0;
+                                    border: 2px solid;
                                     display:flex; align-items:center; justify-content:center;
-                                    font-size:11px; color: {{ $step > $i ? '#a78bfa' : '#6b7280' }};">
+                                    font-size:11px;">
                             @if($step > $i)
                                 <i class="fas fa-check"></i>
                             @else
                                 {{ $i + 1 }}
                             @endif
                         </div>
-                        <span style="font-size:13px; color: {{ $step > $i ? '#e2e8f0' : '#64748b' }};">
+                        <span class="{{ $step > $i ? 'title-adaptive' : 'muted-adaptive' }}" style="font-size:13px;">
                             {{ $s['label'] }}
                         </span>
                     </div>
@@ -216,7 +242,7 @@
         </div>
         <div class="card-body">
             @if(!$pendaftar)
-                <div style="text-align:center; padding: 40px 0; color: #64748b;">
+                <div class="empty-state" style="text-align:center; padding: 40px 0;">
                     <i class="fas fa-inbox" style="font-size:36px; display:block; margin-bottom:12px; opacity:0.4;"></i>
                     <p style="font-size:13px;">Data belum terdaftar</p>
                 </div>
@@ -234,8 +260,8 @@
                     @endphp
 
                     @foreach($kriteria_data as $k)
-                    <div style="display:flex; align-items:center; justify-content:space-between;
-                                padding: 13px 0; border-bottom: 1px solid #1a1d27; gap:12px;
+                    <div class="criteria-row" style="display:flex; align-items:center; justify-content:space-between;
+                                padding: 13px 0; gap:12px;
                                 {{ $loop->last ? 'border-bottom:none;' : '' }}">
                         <div style="display:flex; align-items:center; gap:10px;">
                             <span style="display:inline-flex; align-items:center; justify-content:center;
@@ -245,7 +271,7 @@
                                 {{ $k['kode'] }}
                             </span>
                             <div>
-                                <div style="font-size:13px; font-weight:500; color:#e2e8f0;">{{ $k['nama'] }}</div>
+                                <div class="title-adaptive" style="font-size:13px; font-weight:500;">{{ $k['nama'] }}</div>
                                 <div style="font-size:10px; color: {{ $k['tipe'] === 'Cost' ? '#f87171' : '#6ee7b7' }}; font-weight:600;">
                                     {{ $k['tipe'] }} · Bobot {{ $k['bobot'] }}
                                 </div>
