@@ -652,7 +652,7 @@
         </a>
         <a href="{{ route('admin.laporan.index') }}"
            class="nav-item {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
-            <i class="fas fa-file-chart-column"></i>
+            <i class="fas fa-file-lines"></i>
             Laporan Hasil
         </a>
 
