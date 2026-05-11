@@ -47,15 +47,15 @@ class PendaftarController extends Controller
             'nim'                      => 'required|string|unique:pendaftar,nim',
             'nama'                     => 'required|string|max:100',
             'program_studi'            => 'required|string|max:100',
-            'semester'                 => 'required|integer|min:1|max:14',
+            'semester'                 => 'required|numeric|integer|min:1|max:14',
             'email'                    => 'nullable|email',
             'no_hp'                    => 'nullable|string|max:20',
             'password'                 => 'required|string|min:6',
             'ipk'                      => 'nullable|numeric|min:0|max:4',
             'penghasilan_ortu'         => 'nullable|numeric|min:0',
-            'semester_aktif'           => 'nullable|integer|min:1|max:14',
-            'jml_tanggungan'           => 'nullable|integer|min:0',
-            'keikutsertaan_organisasi' => 'nullable|integer|min:0',
+            'semester_aktif'           => 'nullable|numeric|integer|min:1|max:14',
+            'jml_tanggungan'           => 'nullable|numeric|integer|min:0',
+            'keikutsertaan_organisasi' => 'nullable|numeric|integer|min:0',
         ]);
 
         $pendaftar = Pendaftar::create($request->except('password'));
@@ -91,15 +91,15 @@ class PendaftarController extends Controller
         $request->validate([
             'nama'                     => 'required|string|max:100',
             'program_studi'            => 'required|string|max:100',
-            'semester'                 => 'required|integer|min:1|max:14',
+            'semester'                 => 'required|numeric|integer|min:1|max:14',
             'email'                    => 'nullable|email',
             'no_hp'                    => 'nullable|string|max:20',
             'password'                 => 'nullable|string|min:6',
             'ipk'                      => 'nullable|numeric|min:0|max:4',
             'penghasilan_ortu'         => 'nullable|numeric|min:0',
-            'semester_aktif'           => 'nullable|integer|min:1|max:14',
-            'jml_tanggungan'           => 'nullable|integer|min:0',
-            'keikutsertaan_organisasi' => 'nullable|integer|min:0',
+            'semester_aktif'           => 'nullable|numeric|integer|min:1|max:14',
+            'jml_tanggungan'           => 'nullable|numeric|integer|min:0',
+            'keikutsertaan_organisasi' => 'nullable|numeric|integer|min:0',
         ]);
 
         $pendaftar->update($request->except('password'));
@@ -141,9 +141,13 @@ class PendaftarController extends Controller
     // Tolak/batalkan verifikasi
     public function tolak(Request $request, Pendaftar $pendaftar)
     {
+        $validated = $request->validate([
+            'catatan' => 'required|string|max:2000',
+        ]);
+
         $pendaftar->update([
             'status_verifikasi'   => 'ditolak',
-            'catatan_verifikasi'  => $request->catatan,
+            'catatan_verifikasi'  => $validated['catatan'],
         ]);
 
         return back()->with('success', 'Data pendaftar ditolak.');

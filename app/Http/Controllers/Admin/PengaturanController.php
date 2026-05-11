@@ -20,9 +20,9 @@ class PengaturanController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'kuota_beasiswa' => 'required|integer|min:1',
+            'kuota_beasiswa' => 'required|numeric|integer|min:1',
             'nama_beasiswa'  => 'required|string|max:255',
-            'periode_aktif'  => 'required|integer|min:2000|max:2100',
+            'periode_aktif'  => 'required|numeric|integer|min:2000|max:2100',
         ]);
 
         PengaturanSistem::set('kuota_beasiswa', $request->kuota_beasiswa, 'Kuota penerima beasiswa');
