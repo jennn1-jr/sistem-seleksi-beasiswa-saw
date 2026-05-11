@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\LogAktivitasController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Mahasiswa\DashboardController as MahasiswaDashboard;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,9 @@ Route::prefix('admin')
         Route::get('/laporan', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/cetak', [\App\Http\Controllers\Admin\LaporanController::class, 'cetak'])->name('laporan.cetak');
         Route::get('/laporan/export-pdf', [\App\Http\Controllers\Admin\LaporanController::class, 'exportPdf'])->name('laporan.export-pdf');
+
+        // Log aktivitas admin (NFR auditability)
+        Route::get('/log-aktivitas', [LogAktivitasController::class, 'index'])->name('log-aktivitas.index');
 
     });
 

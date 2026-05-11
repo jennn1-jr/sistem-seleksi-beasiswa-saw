@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kriteria;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 
 class KriteriaController extends Controller
@@ -29,7 +30,12 @@ class KriteriaController extends Controller
             'bobot' => 'required|numeric|min:0',
         ]);
 
-        Kriteria::create($request->only(['kode', 'nama', 'tipe', 'bobot']));
+        $kriteria = Kriteria::create($request->only(['kode', 'nama', 'tipe', 'bobot']));
+
+        LogAktivitas::catat(
+            'Menambah kriteria ' . $kriteria->kode . ' (' . $kriteria->nama . ')',
+            'kriteria'
+        );
 
         return redirect()->route('admin.kriteria.index')
             ->with('success', 'Kriteria berhasil ditambahkan.');
@@ -55,6 +61,11 @@ class KriteriaController extends Controller
             'bobot' => $request->bobot,
             'aktif' => $request->boolean('aktif'),
         ]);
+
+        LogAktivitas::catat(
+            'Mengubah data kriteria ' . $kriterium->kode . ' (' . $kriterium->nama . ')',
+            'kriteria'
+        );
 
         return redirect()->route('admin.kriteria.index')
             ->with('success', 'Kriteria berhasil diperbarui.');

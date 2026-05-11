@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pendaftar;
 use App\Models\Kriteria;
+use App\Models\LogAktivitas;
+use App\Models\Pendaftar;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,6 +71,11 @@ class PendaftarController extends Controller
             ]);
         }
 
+        LogAktivitas::catat(
+            'Menambah data pendaftar NIM ' . $pendaftar->nim . ' (' . $pendaftar->nama . ')',
+            'pendaftar'
+        );
+
         return redirect()->route('admin.pendaftar.index')
             ->with('success', 'Data pendaftar ditambahkan. Login mahasiswa: NIM / password yang telah diset.');
     }
@@ -110,6 +116,12 @@ class PendaftarController extends Controller
                 ->where('role', 'mahasiswa')
                 ->update(['password' => Hash::make($request->password)]);
         }
+
+        $pesanLog = 'Mengubah data pendaftar NIM ' . $pendaftar->nim . ' (' . $pendaftar->nama . ')';
+        if ($request->filled('password')) {
+            $pesanLog .= ' — password akun mahasiswa diperbarui';
+        }
+        LogAktivitas::catat($pesanLog, 'pendaftar');
 
         return redirect()->route('admin.pendaftar.index')
             ->with('success', 'Data pendaftar berhasil diperbarui.' . ($request->filled('password') ? ' Password mahasiswa ikut diperbarui.' : ''));

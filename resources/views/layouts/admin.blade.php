@@ -668,6 +668,11 @@
             <i class="fas fa-gear"></i>
             Pengaturan Sistem
         </a>
+        <a href="{{ route('admin.log-aktivitas.index') }}"
+           class="nav-item {{ request()->routeIs('admin.log-aktivitas.*') ? 'active' : '' }}">
+            <i class="fas fa-clock-rotate-left"></i>
+            Log Aktivitas
+        </a>
 
     </nav>
 
