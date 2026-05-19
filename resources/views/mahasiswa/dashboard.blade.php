@@ -8,13 +8,25 @@
 <style>
     /* Theme helpers for dashboard mahasiswa */
     .text-on-dark { color: #f1f5f9 !important; }
-    .text-on-dark-soft { color: #cbd5e1 !important; }
+    .text-on-dark-soft { color: #64748b !important; }
     .muted-adaptive { color: var(--text-sub) !important; }
     .title-adaptive { color: var(--text-head); }
+
+    /* Balok status pendaftaran — adaptif light/dark */
     .row-dark-surface {
-        background: #1a1d27;
+        background: #f1f5f9;
         border-radius: 10px;
     }
+    html.dark .row-dark-surface {
+        background: #1a1d27;
+    }
+    .row-dark-surface .status-label {
+        color: #374151;
+    }
+    html.dark .row-dark-surface .status-label {
+        color: #cbd5e1;
+    }
+
     .criteria-row {
         border-bottom: 1px solid var(--row-border) !important;
     }
@@ -142,7 +154,7 @@
 
                         {{-- Status verifikasi --}}
                         <div class="row-dark-surface" style="display: flex; justify-content: space-between; align-items: center; padding: 12px;">
-                            <span class="text-on-dark-soft" style="font-size: 13px;">Verifikasi Data</span>
+                            <span class="status-label" style="font-size: 13px;">Verifikasi Data</span>
                             @if($pendaftar->status_verifikasi === 'terverifikasi')
                                 <span class="badge badge-success"><i class="fas fa-circle-check"></i> Terverifikasi</span>
                             @elseif($pendaftar->status_verifikasi === 'pending')
@@ -154,7 +166,7 @@
 
                         {{-- Nilai lengkap --}}
                         <div class="row-dark-surface" style="display: flex; justify-content: space-between; align-items: center; padding: 12px;">
-                            <span class="text-on-dark-soft" style="font-size: 13px;">Kelengkapan Nilai</span>
+                            <span class="status-label" style="font-size: 13px;">Kelengkapan Nilai</span>
                             @if($pendaftar->nilaiLengkap())
                                 <span class="badge badge-success"><i class="fas fa-check"></i> Lengkap (C1-C5)</span>
                             @else
@@ -164,7 +176,7 @@
 
                         {{-- Hasil SAW --}}
                         <div class="row-dark-surface" style="display: flex; justify-content: space-between; align-items: center; padding: 12px;">
-                            <span class="text-on-dark-soft" style="font-size: 13px;">Hasil Seleksi SAW</span>
+                            <span class="status-label" style="font-size: 13px;">Hasil Seleksi SAW</span>
                             @if($hasilSaw)
                                 @if($hasilSaw->lolos)
                                     <span class="badge badge-success"><i class="fas fa-trophy"></i> Lolos Beasiswa</span>

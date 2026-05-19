@@ -4,6 +4,25 @@
 @section('page-title', 'Pengumuman')
 @section('breadcrumb', 'Hasil seleksi beasiswa ' . $namaBeasiswa)
 
+@push('styles')
+<style>
+    /* Balok status pendaftaran di pengumuman — adaptif light/dark */
+    .status-row-surface {
+        background: #f1f5f9;
+        border-radius: 8px;
+    }
+    html.dark .status-row-surface {
+        background: #1a1d27;
+    }
+    .status-row-surface .status-label {
+        color: #374151;
+    }
+    html.dark .status-row-surface .status-label {
+        color: #64748b;
+    }
+</style>
+@endpush
+
 @section('content')
 
 <div class="page-header">
@@ -39,9 +58,8 @@
                 <p style="font-size: 13px; color: #64748b;">Data Anda sudah terdaftar. Hasil seleksi akan muncul setelah admin menjalankan perhitungan SAW.</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px;">
-                <div style="display:flex; justify-content:space-between; padding:10px 12px;
-                            background:#1a1d27; border-radius:8px;">
-                    <span style="font-size:12px; color:#64748b;">Verifikasi Data</span>
+                <div class="status-row-surface" style="display:flex; justify-content:space-between; padding:10px 12px;">
+                    <span class="status-label" style="font-size:12px;">Verifikasi Data</span>
                     @if($pendaftar->status_verifikasi === 'terverifikasi')
                         <span class="badge badge-success"><i class="fas fa-check"></i> Terverifikasi</span>
                     @elseif($pendaftar->status_verifikasi === 'pending')
@@ -50,9 +68,8 @@
                         <span class="badge badge-danger"><i class="fas fa-xmark"></i> Ditolak</span>
                     @endif
                 </div>
-                <div style="display:flex; justify-content:space-between; padding:10px 12px;
-                            background:#1a1d27; border-radius:8px;">
-                    <span style="font-size:12px; color:#64748b;">Kelengkapan Nilai</span>
+                <div class="status-row-surface" style="display:flex; justify-content:space-between; padding:10px 12px;">
+                    <span class="status-label" style="font-size:12px;">Kelengkapan Nilai</span>
                     @if($pendaftar->nilaiLengkap())
                         <span class="badge badge-success"><i class="fas fa-check"></i> C1-C5 Lengkap</span>
                     @else
