@@ -20,6 +20,22 @@
     [data-theme="dark"] .status-row-surface .status-label {
         color: #64748b;
     }
+
+    /* Kolom angka di tabel normalisasi — adaptif light/dark */
+    .tbl-mono {
+        font-family: monospace;
+        color: #374151;
+    }
+    [data-theme="dark"] .tbl-mono {
+        color: #cbd5e1;
+    }
+    .tbl-num {
+        font-weight: 600;
+        color: #1e293b;
+    }
+    [data-theme="dark"] .tbl-num {
+        color: #e2e8f0;
+    }
 </style>
 @endpush
 
@@ -246,10 +262,10 @@
                             @endif
                         </td>
                         <td style="text-align:center; font-weight:700; color:#a78bfa;">{{ $k->bobot }}</td>
-                        <td style="text-align:center; font-family:monospace; color:#cbd5e1;">
+                        <td class="tbl-mono" style="text-align:center;">
                             {{ number_format($r, 4) }}
                         </td>
-                        <td style="text-align:center; font-weight:600; color:#e2e8f0;">
+                        <td class="tbl-num" style="text-align:center;">
                             {{ number_format($wr, 4) }}
                         </td>
                     </tr>
