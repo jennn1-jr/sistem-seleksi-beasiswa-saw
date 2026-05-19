@@ -17,13 +17,13 @@
         background: #f1f5f9;
         border-radius: 10px;
     }
-    html.dark .row-dark-surface {
+    [data-theme="dark"] .row-dark-surface {
         background: #1a1d27;
     }
     .row-dark-surface .status-label {
         color: #374151;
     }
-    html.dark .row-dark-surface .status-label {
+    [data-theme="dark"] .row-dark-surface .status-label {
         color: #cbd5e1;
     }
 

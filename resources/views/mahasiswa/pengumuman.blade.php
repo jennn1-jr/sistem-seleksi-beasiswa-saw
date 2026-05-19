@@ -11,13 +11,13 @@
         background: #f1f5f9;
         border-radius: 8px;
     }
-    html.dark .status-row-surface {
+    [data-theme="dark"] .status-row-surface {
         background: #1a1d27;
     }
     .status-row-surface .status-label {
         color: #374151;
     }
-    html.dark .status-row-surface .status-label {
+    [data-theme="dark"] .status-row-surface .status-label {
         color: #64748b;
     }
 </style>
