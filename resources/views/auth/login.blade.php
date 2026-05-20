@@ -247,40 +247,6 @@
             50%      { transform: translateY(-20px) rotate(5deg); }
         }
 
-        /* ── Fix :-webkit-autofill ─────────────────────── */
-        /*
-         * Browser (Chrome/Edge) memaksa background kuning/putih & teks hitam
-         * saat autofill aktif. Kita tidak bisa override background-color secara
-         * langsung, tapi bisa "menutupinya" dengan box-shadow inset yang besar
-         * sehingga terlihat seperti background glassmorphism asli.
-         */
-        .login-field input:-webkit-autofill,
-        .login-field input:-webkit-autofill:hover,
-        .login-field input:-webkit-autofill:focus,
-        .login-field input:-webkit-autofill:active {
-            /* Simulasikan background semi-transparan dengan inset shadow */
-            -webkit-box-shadow: 0 0 0 9999px rgba(124, 58, 237, 0.35) inset !important;
-            box-shadow:         0 0 0 9999px rgba(124, 58, 237, 0.35) inset !important;
-            /* Paksa warna teks tetap putih */
-            -webkit-text-fill-color: #ffffff !important;
-            caret-color: #ffffff;
-            /* Tahan transisi agar tidak ada "flash" kuning sesaat */
-            transition: background-color 9999s ease-in-out 0s;
-            /* Jaga border tetap konsisten */
-            border-color: rgba(255, 255, 255, 0.4) !important;
-        }
-        /* Saat input autofill sedang di-focus */
-        .login-field input:-webkit-autofill:focus {
-            -webkit-box-shadow: 0 0 0 9999px rgba(124, 58, 237, 0.5) inset !important;
-            box-shadow:         0 0 0 9999px rgba(124, 58, 237, 0.5) inset !important;
-            border-color: #ffffff !important;
-        }
-        /* Firefox: tidak ada :-webkit-autofill, tapi kita bisa set warna teks */
-        .login-field input:autofill {
-            background: rgba(255, 255, 255, 0.15) !important;
-            color: #ffffff !important;
-        }
-
         /* ── Dark mode (opsional) ───────────────────────── */
         [data-theme="dark"] #loginPage {
             background: linear-gradient(135deg, #4c1d95 0%, #2e1065 50%, #3b0764 100%);
