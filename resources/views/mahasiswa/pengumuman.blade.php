@@ -101,7 +101,7 @@
         <div class="card-header">
             <div class="card-title"><i class="fas fa-list-check"></i> Kriteria Penilaian</div>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrapper overflow-x-auto w-full">
             <table>
                 <thead>
                     <tr>
@@ -222,7 +222,7 @@
                 Dihitung: {{ $hasil->dieksekusi_at?->format('d M Y') }}
             </span>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrapper overflow-x-auto w-full">
             <table>
                 <thead>
                     <tr>

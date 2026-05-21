@@ -7,6 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            }
+        }
+    </script>
     <style>
         /* ── CSS Variables ─────────────────────────────── */
         :root {
@@ -55,8 +63,7 @@
             border: 1px solid rgba(255,255,255,0.25);
             border-radius: 20px;
             padding: 40px;
-            width: 100%;
-            max-width: 420px;
+            /* Width handled by Tailwind classes */
             text-align: center;
             animation: fadeInUp 0.6s ease;
             position: relative;
@@ -261,7 +268,7 @@
     <div class="login-bg-shape"></div>
     <div class="login-bg-shape"></div>
 
-    <div class="login-card">
+    <div class="login-card w-11/12 max-w-md mx-auto">
         <!-- Logo -->
         <img src="{{ asset('images/logo.png') }}"
              onerror="this.src='https://placehold.co/80x80/7c3aed/ffffff?text=KB'"

@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="table-wrapper">
+    <div class="table-wrapper overflow-x-auto w-full">
         @if($logs->isEmpty())
             <div class="log-empty-state">
                 <i class="fas fa-clipboard-list"></i>

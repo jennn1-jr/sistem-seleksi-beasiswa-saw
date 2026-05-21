@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="table-wrapper">
+    <div class="table-wrapper overflow-x-auto w-full">
         @if($admins->isEmpty())
             <div style="padding: 56px; text-align: center; color: #9ca3af;">
                 <i class="fas fa-user-slash" style="font-size: 40px; display: block; margin-bottom: 12px; opacity: 0.4;"></i>

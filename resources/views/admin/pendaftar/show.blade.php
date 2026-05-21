@@ -42,48 +42,50 @@
                 @endif
             </div>
             <div class="card-body">
-                <table class="detail-table">
-                    <tr>
-                        <td class="detail-label">NIM</td>
-                        <td class="detail-value"><strong>{{ $pendaftar->nim }}</strong></td>
-                    </tr>
-                    <tr>
-                        <td class="detail-label">Nama Lengkap</td>
-                        <td class="detail-value">{{ $pendaftar->nama }}</td>
-                    </tr>
-                    <tr>
-                        <td class="detail-label">Program Studi</td>
-                        <td class="detail-value">{{ $pendaftar->program_studi }}</td>
-                    </tr>
-                    <tr>
-                        <td class="detail-label">Semester</td>
-                        <td class="detail-value">Semester {{ $pendaftar->semester }}</td>
-                    </tr>
-                    <tr>
-                        <td class="detail-label">Email</td>
-                        <td class="detail-value">{{ $pendaftar->email ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="detail-label">No. HP</td>
-                        <td class="detail-value">{{ $pendaftar->no_hp ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="detail-label">Tgl. Daftar</td>
-                        <td class="detail-value">{{ $pendaftar->created_at->format('d F Y, H:i') }} WIB</td>
-                    </tr>
-                    @if($pendaftar->verified_at)
-                    <tr>
-                        <td class="detail-label">Tgl. Verifikasi</td>
-                        <td class="detail-value">{{ $pendaftar->verified_at->format('d F Y, H:i') }} WIB</td>
-                    </tr>
-                    @endif
-                    @if($pendaftar->catatan_verifikasi)
-                    <tr>
-                        <td class="detail-label">Catatan</td>
-                        <td class="detail-value" style="color: #ef4444;">{{ $pendaftar->catatan_verifikasi }}</td>
-                    </tr>
-                    @endif
-                </table>
+                <div class="overflow-x-auto w-full">
+                    <table class="detail-table">
+                        <tr>
+                            <td class="detail-label">NIM</td>
+                            <td class="detail-value"><strong>{{ $pendaftar->nim }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Nama Lengkap</td>
+                            <td class="detail-value">{{ $pendaftar->nama }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Program Studi</td>
+                            <td class="detail-value">{{ $pendaftar->program_studi }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Semester</td>
+                            <td class="detail-value">Semester {{ $pendaftar->semester }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Email</td>
+                            <td class="detail-value">{{ $pendaftar->email ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">No. HP</td>
+                            <td class="detail-value">{{ $pendaftar->no_hp ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Tgl. Daftar</td>
+                            <td class="detail-value">{{ $pendaftar->created_at->format('d F Y, H:i') }} WIB</td>
+                        </tr>
+                        @if($pendaftar->verified_at)
+                        <tr>
+                            <td class="detail-label">Tgl. Verifikasi</td>
+                            <td class="detail-value">{{ $pendaftar->verified_at->format('d F Y, H:i') }} WIB</td>
+                        </tr>
+                        @endif
+                        @if($pendaftar->catatan_verifikasi)
+                        <tr>
+                            <td class="detail-label">Catatan</td>
+                            <td class="detail-value" style="color: #ef4444;">{{ $pendaftar->catatan_verifikasi }}</td>
+                        </tr>
+                        @endif
+                    </table>
+                </div>
             </div>
         </div>
 

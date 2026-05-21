@@ -81,7 +81,7 @@
                 </span>
             </div>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrapper overflow-x-auto w-full">
             <table>
                 <thead>
                     <tr>
@@ -133,7 +133,7 @@
                 </span>
             </div>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrapper overflow-x-auto w-full">
             <table>
                 <thead>
                     <tr>

@@ -14,6 +14,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     @stack('styles')
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            }
+        }
+    </script>
 
     <style>
         /* ─────────────────────────────────────────────────────
@@ -260,11 +269,15 @@
            MAIN CONTENT
         ───────────────────────────────────────────────────── */
         .main-wrapper {
-            margin-left: 240px;
+            margin-left: 0;
             flex: 1;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+        @media (min-width: 768px) {
+            .main-wrapper { margin-left: 240px; }
+        }
         }
 
         /* Topbar */
@@ -438,7 +451,7 @@
 <body>
 
 {{-- ── Sidebar ─────────────────────────────────────────── --}}
-<aside class="sidebar">
+<aside class="sidebar -translate-x-full md:translate-x-0" id="sidebar">
 
     {{-- Brand --}}
     <div class="sidebar-brand">
@@ -495,10 +508,15 @@
 <div class="main-wrapper">
 
     {{-- Topbar --}}
-    <div class="topbar">
-        <div class="topbar-left">
-            <h2>@yield('page-title', 'Dashboard')</h2>
-            <p>@yield('breadcrumb', '')</p>
+    <div class="topbar flex items-center justify-between">
+        <div class="topbar-left flex items-center gap-3">
+            <button class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="btnHamburger">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <div>
+                <h2>@yield('page-title', 'Dashboard')</h2>
+                <p>@yield('breadcrumb', '')</p>
+            </div>
         </div>
         <div class="topbar-right">
             <button class="btn-theme-toggle" id="btnThemeToggle" title="Ganti Tema" aria-label="Toggle dark mode">
@@ -570,6 +588,13 @@
     btnToggle?.addEventListener('click', () => {
         const current = html.getAttribute('data-theme');
         applyThemeMhs(current === 'dark' ? 'light' : 'dark');
+    });
+
+    const sidebar = document.getElementById('sidebar');
+    const btnHamburger = document.getElementById('btnHamburger');
+
+    btnHamburger?.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
     });
 </script>
 

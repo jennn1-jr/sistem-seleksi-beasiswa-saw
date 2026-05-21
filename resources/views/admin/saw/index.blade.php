@@ -166,7 +166,7 @@
                 Total bobot: <strong>{{ $kriteria->sum('bobot') }}</strong>
             </span>
         </div>
-        <div class="table-wrapper">
+        <div class="table-wrapper overflow-x-auto w-full">
             <table>
                 <thead>
                     <tr>

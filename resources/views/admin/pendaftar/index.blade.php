@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div class="table-wrapper">
+    <div class="table-wrapper overflow-x-auto w-full">
         @if($pendaftar->isEmpty())
             <div style="padding: 56px; text-align: center; color: #9ca3af;">
                 <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block; opacity: 0.4;"></i>
