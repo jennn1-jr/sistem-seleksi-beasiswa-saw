@@ -513,7 +513,7 @@
     {{-- Topbar --}}
     <div class="topbar flex items-center justify-between">
         <div class="topbar-left flex items-center gap-3">
-            <button class="md:hidden" id="btnHamburger">
+            <button class="md:hidden bg-transparent border-none p-2 cursor-pointer outline-none flex items-center justify-center" id="btnHamburger">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-800 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
