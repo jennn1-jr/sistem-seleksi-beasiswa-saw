@@ -2,7 +2,7 @@
 <html lang="id" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Login - Kalku Beasiswa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -268,7 +268,7 @@
     <div class="login-bg-shape"></div>
     <div class="login-bg-shape"></div>
 
-    <div class="login-card w-11/12 max-w-md mx-auto">
+    <div class="login-card w-full max-w-md mx-auto px-4">
         <!-- Logo -->
         <img src="{{ asset('images/logo.png') }}"
              onerror="this.src='https://placehold.co/80x80/7c3aed/ffffff?text=KB'"

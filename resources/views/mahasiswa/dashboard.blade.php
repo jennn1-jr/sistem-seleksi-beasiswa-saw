@@ -131,7 +131,7 @@
 
 </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 break-words">
 
     {{-- ── Kolom Kiri: Status Detail ───────────────────── --}}
     <div style="display: flex; flex-direction: column; gap: 20px;">

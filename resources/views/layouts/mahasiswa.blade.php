@@ -504,13 +504,16 @@
     </div>
 </aside>
 
+{{-- Sidebar Backdrop (Mobile) --}}
+<div id="sidebarBackdrop" class="fixed inset-0 bg-black/50 z-[90] hidden md:hidden"></div>
+
 {{-- ── Main Wrapper ────────────────────────────────────── --}}
 <div class="main-wrapper">
 
     {{-- Topbar --}}
     <div class="topbar flex items-center justify-between">
         <div class="topbar-left flex items-center gap-3">
-            <button class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200" id="btnHamburger">
+            <button class="md:hidden text-gray-800 dark:text-gray-200" id="btnHamburger">
                 <i class="fas fa-bars text-xl"></i>
             </button>
             <div>
@@ -592,10 +595,17 @@
 
     const sidebar = document.getElementById('sidebar');
     const btnHamburger = document.getElementById('btnHamburger');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
-    btnHamburger?.addEventListener('click', () => {
+    function toggleSidebar() {
         sidebar.classList.toggle('-translate-x-full');
-    });
+        if (sidebarBackdrop) {
+            sidebarBackdrop.classList.toggle('hidden');
+        }
+    }
+
+    btnHamburger?.addEventListener('click', toggleSidebar);
+    sidebarBackdrop?.addEventListener('click', toggleSidebar);
 </script>
 
 @stack('scripts')
